@@ -246,7 +246,44 @@ class ChiikawaApp {
 
     bar.innerHTML = `<div class="subtabs-pills">${pillsHtml}</div>`;
 
+    const pillsWrap = bar.querySelector('.subtabs-pills');
+
+    // Horizontal mouse wheel scrolling
+    const handleWheel = (e) => {
+      if (e.deltaY !== 0) {
+        e.preventDefault();
+        pillsWrap.scrollLeft += e.deltaY;
+      }
+    };
+    bar.onwheel = handleWheel;
+    pillsWrap.onwheel = handleWheel;
+
+    // Mouse drag-to-scroll support for desktop
+    let isDown = false;
+    let startX = 0;
+    let scrollLeft = 0;
+
+    pillsWrap.onmousedown = (e) => {
+      if (e.target.tagName === 'BUTTON') return;
+      isDown = true;
+      startX = e.pageX - pillsWrap.offsetLeft;
+      scrollLeft = pillsWrap.scrollLeft;
+    };
+    window.addEventListener('mouseup', () => { isDown = false; });
+    pillsWrap.onmousemove = (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - pillsWrap.offsetLeft;
+      const walk = (x - startX) * 1.5;
+      pillsWrap.scrollLeft = scrollLeft - walk;
+    };
+
     bar.querySelectorAll('.subtab-pill').forEach(btn => {
+      if (btn.classList.contains('active')) {
+        setTimeout(() => {
+          btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }, 30);
+      }
       btn.addEventListener('click', () => {
         this.activeSubtab = btn.dataset.sub;
 

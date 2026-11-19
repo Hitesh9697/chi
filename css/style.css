@@ -324,21 +324,41 @@ body {
 .subtabs-bar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   padding: 8px 12px;
   background-color: var(--bg-cream);
   border-bottom: 1px solid #F0E8DC;
   gap: 6px;
   flex-shrink: 0;
   min-height: 46px;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  cursor: grab;
+}
+
+.subtabs-bar::-webkit-scrollbar {
+  display: none;
 }
 
 .subtabs-pills {
   display: flex;
   align-items: center;
   gap: 6px;
+  width: 100%;
+  max-width: 100%;
   overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
+  flex-shrink: 0;
+  cursor: grab;
+}
+
+.subtabs-pills:active, .subtabs-bar:active {
+  cursor: grabbing;
 }
 
 .subtabs-pills::-webkit-scrollbar {
@@ -346,6 +366,7 @@ body {
 }
 
 .subtab-pill {
+  flex-shrink: 0;
   padding: 5px 13px;
   border-radius: 18px;
   border: 1.5px solid var(--border-soft);
