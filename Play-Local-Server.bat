@@ -1,0 +1,7 @@
+@echo off
+title Chiikawa Game Server
+echo Starting Chiikawa Game on local server...
+cd /d "%~dp0"
+start "" http://localhost:8080
+python -m http.server 8080
+pause

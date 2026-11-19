@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>chi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500;700;900&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="css/style.css?v=20261118k">
+</head>
+<body>
+
+  <main class="game-wrapper" id="game-app">
+
+    <!-- ================= START SCREEN ================= -->
+    <section class="screen-container start-screen" id="start-screen">
+      <div class="start-content">
+        <h1 class="start-title">To lovely Meo</h1>
+        <button class="btn-main-finish start-btn" id="btn-start-game">Start</button>
+      </div>
+      <div class="start-credit">made by Bcgate</div>
+    </section>
+
+    <!-- ================= CREATOR SCREEN ================= -->
+    <section class="screen-container creator-layout" id="creator-screen">
+
+      <!-- 1. Top Bar (Exact Video Match: Name Input 0/8 + Reset Button) -->
+      <header class="top-nav-bar">
+        <div class="name-input-box">
+          <input type="text" id="char-name-input" class="char-name-input" maxlength="8" placeholder="Name your character">
+          <span class="name-counter" id="name-counter">0/8</span>
+        </div>
+        <button class="reset-icon-btn" id="btn-reset" title="Reset" aria-label="Reset">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#3A2E2B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 12a9 9 0 1 0 3-6.7L3 8" />
+            <path d="M3 3v5h5" />
+          </svg>
+        </button>
+      </header>
+
+      <!-- 2. Stage Preview Area (Crisp Vector Meadow matching Video) -->
+      <section class="stage-container" id="stage-canvas-wrap">
+        <div class="stage-zoom-layer" id="stage-zoom-layer">
+        <svg class="stage-bg-svg" viewBox="0 0 440 240" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#BEE3F8" />
+              <stop offset="100%" stop-color="#DFF2FC" />
+            </linearGradient>
+            <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#FCE373" stop-opacity="0.65" />
+              <stop offset="100%" stop-color="#FCE373" stop-opacity="0" />
+            </radialGradient>
+          </defs>
+
+          <!-- Pastel Sky -->
+          <rect width="440" height="240" fill="url(#skyGrad)" />
+
+          <!-- Sun & Glow (matching Video) -->
+          <circle cx="54" cy="48" r="40" fill="url(#sunGlow)" />
+          <circle cx="54" cy="48" r="20" fill="#FBE16E" stroke="#4A3832" stroke-width="2.2" />
+
+          <!-- Pastel Clouds -->
+          <path d="M 10,92 C 4,92 0,86 4,80 C 6,72 16,68 24,72 C 30,62 48,62 54,74 C 64,74 70,84 64,92 Z"
+                fill="#FCFBF4" stroke="#4A3832" stroke-width="2.2" stroke-linejoin="round" />
+          <path d="M 358,72 C 350,72 346,64 352,56 C 356,46 372,44 380,50 C 388,38 412,38 420,52 C 432,52 438,64 432,72 Z"
+                fill="#FCFBF4" stroke="#4A3832" stroke-width="2.2" stroke-linejoin="round" />
+
+          <!-- Rolling Sage Hills -->
+          <path d="M -10,166 Q 110,130 230,164 Q 340,126 450,162 L 450,245 L -10,245 Z"
+                fill="#C8E2AC" stroke="#4A3832" stroke-width="2.2" />
+
+          <!-- Foreground Meadow -->
+          <rect x="-10" y="178" width="460" height="72" fill="#B3D197" />
+          <line x1="-10" y1="178" x2="450" y2="178" stroke="#4A3832" stroke-width="2.2" />
+
+          <!-- Soft Borderless Concentric Grass Pad -->
+          <ellipse cx="220" cy="188" rx="156" ry="18" fill="#C4DF9E" />
+          <ellipse cx="220" cy="188" rx="108" ry="12" fill="#B2D18F" />
+          <ellipse cx="220" cy="188" rx="64" ry="7" fill="#9EC27B" />
+
+          <!-- Cute Meadow Flowers -->
+          <g transform="translate(88, 198)">
+            <circle cx="0" cy="-4.5" r="4" fill="#F9B8C6" stroke="#4A3832" stroke-width="1.6" />
+            <circle cx="4.5" cy="-1" r="4" fill="#F9B8C6" stroke="#4A3832" stroke-width="1.6" />
+            <circle cx="3" cy="4.5" r="4" fill="#F9B8C6" stroke="#4A3832" stroke-width="1.6" />
+            <circle cx="-3" cy="4.5" r="4" fill="#F9B8C6" stroke="#4A3832" stroke-width="1.6" />
+            <circle cx="-4.5" cy="-1" r="4" fill="#F9B8C6" stroke="#4A3832" stroke-width="1.6" />
+            <circle cx="0" cy="0" r="2.6" fill="#FCE373" stroke="#4A3832" stroke-width="1.4" />
+          </g>
+          <g transform="translate(356, 202)">
+            <circle cx="0" cy="-4.5" r="4" fill="#FCFBF4" stroke="#4A3832" stroke-width="1.6" />
+            <circle cx="4.5" cy="-1" r="4" fill="#FCFBF4" stroke="#4A3832" stroke-width="1.6" />
+            <circle cx="3" cy="4.5" r="4" fill="#FCFBF4" stroke="#4A3832" stroke-width="1.6" />
+            <circle cx="-3" cy="4.5" r="4" fill="#FCFBF4" stroke="#4A3832" stroke-width="1.6" />
+            <circle cx="-4.5" cy="-1" r="4" fill="#FCFBF4" stroke="#4A3832" stroke-width="1.6" />
+            <circle cx="0" cy="0" r="2.6" fill="#FCE373" stroke="#4A3832" stroke-width="1.4" />
+          </g>
+          <g transform="translate(56, 214) scale(0.8)">
+            <circle cx="0" cy="-4.5" r="4" fill="#FCFBF4" stroke="#4A3832" stroke-width="1.6" />
+            <circle cx="4.5" cy="-1" r="4" fill="#FCFBF4" stroke="#4A3832" stroke-width="1.6" />
+            <circle cx="3" cy="4.5" r="4" fill="#FCFBF4" stroke="#4A3832" stroke-width="1.6" />
+            <circle cx="-3" cy="4.5" r="4" fill="#FCFBF4" stroke="#4A3832" stroke-width="1.6" />
+            <circle cx="-4.5" cy="-1" r="4" fill="#FCFBF4" stroke="#4A3832" stroke-width="1.6" />
+            <circle cx="0" cy="0" r="2.6" fill="#FCE373" stroke="#4A3832" stroke-width="1.4" />
+          </g>
+          <g transform="translate(388, 190) scale(0.8)">
+            <circle cx="0" cy="-4.5" r="4" fill="#F9B8C6" stroke="#4A3832" stroke-width="1.6" />
+            <circle cx="4.5" cy="-1" r="4" fill="#F9B8C6" stroke="#4A3832" stroke-width="1.6" />
+            <circle cx="3" cy="4.5" r="4" fill="#F9B8C6" stroke="#4A3832" stroke-width="1.6" />
+            <circle cx="-3" cy="4.5" r="4" fill="#F9B8C6" stroke="#4A3832" stroke-width="1.6" />
+            <circle cx="-4.5" cy="-1" r="4" fill="#F9B8C6" stroke="#4A3832" stroke-width="1.6" />
+            <circle cx="0" cy="0" r="2.6" fill="#FCE373" stroke="#4A3832" stroke-width="1.4" />
+          </g>
+
+          <!-- Sparkles -->
+          <path d="M 96,98 L 99,106 L 107,109 L 99,112 L 96,120 L 93,112 L 85,109 L 93,106 Z"
+                fill="#FCE373" stroke="#4A3832" stroke-width="1.5" stroke-linejoin="round" />
+          <path d="M 358,142 L 360,148 L 366,150 L 360,152 L 358,158 L 356,152 L 350,150 L 356,148 Z"
+                fill="#FCE373" stroke="#4A3832" stroke-width="1.5" stroke-linejoin="round" />
+        </svg>
+
+        <!-- Interactive Character Mount -->
+        <div class="stage-character-mount" id="stage-character-mount"></div>
+        </div>
+      </section>
+
+      <!-- 3. 5 Main Category Tabs (몸, 얼굴, 머리, 꾸미기, 성격) -->
+      <nav class="categories-nav" id="categories-nav">
+        <button class="cat-nav-btn active" data-category="body">
+          <div class="cat-icon-circle">
+            <svg viewBox="0 0 32 32" width="22" height="22" fill="none" stroke="#3A2E2B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="10" cy="8" r="2.8" fill="#FFFFFF" />
+              <circle cx="22" cy="8" r="2.8" fill="#FFFFFF" />
+              <path d="M16 7C10.5 7 7 10.5 7 15.5C7 18.5 8 21.5 8 23.5C8 25.5 10 26.5 12 26.5H13.5V25H18.5V26.5H20C22 26.5 24 25.5 24 23.5C24 21.5 25 18.5 25 15.5C25 10.5 21.5 7 16 7Z" fill="#FFFFFF" />
+            </svg>
+          </div>
+          <span class="cat-title">Body</span>
+        </button>
+
+        <button class="cat-nav-btn" data-category="face">
+          <div class="cat-icon-circle">
+            <svg viewBox="0 0 32 32" width="22" height="22" fill="none" stroke="#3A2E2B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="16" cy="16" r="10.5" fill="#FFFFFF" />
+              <circle cx="12.5" cy="14.5" r="1.4" fill="#3A2E2B" stroke="none" />
+              <circle cx="19.5" cy="14.5" r="1.4" fill="#3A2E2B" stroke="none" />
+              <path d="M13.5 18.5Q14.8 20 16 18.5Q17.2 20 18.5 18.5" stroke-width="1.8" />
+            </svg>
+          </div>
+          <span class="cat-title">Face</span>
+        </button>
+
+        <button class="cat-nav-btn" data-category="head">
+          <div class="cat-icon-circle">
+            <svg viewBox="0 0 32 32" width="22" height="22" fill="none" stroke="#3A2E2B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 12L8 6L13 10H19L24 6L23 12C25 14 26 16.5 26 19.5C26 23.5 22 26 16 26C10 26 6 23.5 6 19.5C6 16.5 7 14 9 12Z" fill="#FFFFFF" />
+            </svg>
+          </div>
+          <span class="cat-title">Head</span>
+        </button>
+
+        <button class="cat-nav-btn" data-category="dressUp">
+          <div class="cat-icon-circle">
+            <svg viewBox="0 0 32 32" width="22" height="22" fill="none" stroke="#3A2E2B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 16L7 10V22L16 16ZM16 16L25 10V22L16 16Z" fill="#FFFFFF" />
+              <circle cx="16" cy="16" r="2.5" fill="#FFFFFF" />
+            </svg>
+          </div>
+          <span class="cat-title">Dress Up</span>
+        </button>
+
+        <button class="cat-nav-btn" data-category="personality">
+          <div class="cat-icon-circle">
+            <svg viewBox="0 0 32 32" width="22" height="22" fill="none" stroke="#3A2E2B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 25C16 25 6 18.5 6 12C6 8.8 8.5 6.5 11.5 6.5C13.6 6.5 15.2 7.6 16 9.2C16.8 7.6 18.4 6.5 20.5 6.5C23.5 6.5 26 8.8 26 12C26 18.5 16 25 16 25Z" fill="#FFFFFF" />
+            </svg>
+          </div>
+          <span class="cat-title">Personality</span>
+        </button>
+      </nav>
+
+      <!-- 4. Subtabs Bar -->
+      <div class="subtabs-bar" id="subtabs-bar"></div>
+
+      <!-- 5. Options Workspace -->
+      <div class="options-workspace" id="options-content"></div>
+
+      <!-- 6. Bottom Action Button -->
+      <footer class="bottom-action-bar">
+        <button class="btn-main-finish" id="btn-download-image">
+          Download Image
+        </button>
+      </footer>
+    </section>
+
+    <!-- ================= CUSTOM COLOR PICKER POPUP ================= -->
+    <div class="color-picker-backdrop" id="color-picker-modal" style="display: none;">
+      <div class="color-picker-popover">
+        <div class="cp-sv-box" id="cp-sv-box">
+          <div class="cp-sv-white"></div>
+          <div class="cp-sv-black"></div>
+          <div class="cp-sv-cursor" id="cp-sv-cursor"></div>
+        </div>
+        <div class="cp-hue-row">
+          <div class="cp-preview-dot" id="cp-preview-dot"></div>
+          <input type="range" id="cp-hue-slider" class="cp-hue-slider" min="0" max="360" value="0">
+        </div>
+        <div class="cp-rgb-row">
+          <div class="cp-rgb-field">
+            <input type="number" id="cp-r" min="0" max="255" value="255">
+            <span>R</span>
+          </div>
+          <div class="cp-rgb-field">
+            <input type="number" id="cp-g" min="0" max="255" value="255">
+            <span>G</span>
+          </div>
+          <div class="cp-rgb-field">
+            <input type="number" id="cp-b" min="0" max="255" value="255">
+            <span>B</span>
+          </div>
+        </div>
+        <div class="cp-actions">
+          <button class="cp-done-btn" id="cp-close-btn">OK</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="js/lib/three.min.js"></script>
+  <script src="js/data.js?v=20261118l"></script>
+  <script src="js/renderer.js?v=20261118l"></script>
+  <script src="js/village.js?v=20261118l"></script>
+  <script src="js/app.js?v=20261118l"></script>
+</body>
+</html>
