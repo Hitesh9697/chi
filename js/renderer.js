@@ -577,6 +577,70 @@ class ChiikawaRenderer {
           m.rotation.z = s * 0.5;
         });
         break;
+      case 'ear_devil':
+        addPair((g, s) => {
+          const m = this._addOutlinedMesh(g, new THREE.ConeGeometry(0.14, 0.32, 4), mat, 0.03, 1);
+          m.scale.set(0.35, 1, 1.1);
+          m.position.set(s * 0.52, 0.92, 0.0);
+          m.rotation.z = -s * 0.42;
+        });
+        break;
+      case 'ear_curled':
+        addPair((g, s) => {
+          const m = this._addOutlinedMesh(g, new THREE.ConeGeometry(0.16, 0.32, 16), mat, 0.03);
+          m.scale.set(1, 1, 0.65);
+          m.position.set(s * 0.48, 0.88, 0.0);
+          m.rotation.set(0.2, 0, -s * 0.55);
+        });
+        break;
+      case 'ear_dragon':
+        addPair((g, s) => {
+          const m = this._addOutlinedMesh(g, new THREE.ConeGeometry(0.12, 0.40, 14), mat, 0.03, 1);
+          m.position.set(s * 0.44, 0.95, -0.05);
+          m.rotation.set(-0.5, 0, -s * 0.35);
+        });
+        break;
+      case 'ear_bunny_droop':
+        addPair((g, s) => {
+          const m = this._addOutlinedMesh(g, new THREE.CapsuleGeometry(0.11, 0.45, 10, 20), mat, 0.03);
+          m.scale.set(1, 1, 0.65);
+          m.position.set(s * 0.78, 0.35, 0.02);
+          m.rotation.z = s * 0.35;
+        });
+        break;
+      case 'ear_mouse':
+        addPair((g, s) => {
+          const m = this._addOutlinedMesh(g, new THREE.CylinderGeometry(0.24, 0.24, 0.05, 24), mat, 0.03, 1);
+          m.position.set(s * 0.58, 0.86, 0.0);
+          m.rotation.set(Math.PI / 2, 0, -s * 0.25);
+        });
+        break;
+      case 'ear_deer':
+        addPair((g, s) => {
+          const m = this._addOutlinedMesh(g, new THREE.CylinderGeometry(0.03, 0.04, 0.38, 8), mat, 0.025);
+          m.position.set(s * 0.45, 0.98, 0.0);
+          m.rotation.z = -s * 0.32;
+          const branch = this._addOutlinedMesh(g, new THREE.CylinderGeometry(0.022, 0.028, 0.18, 8), mat, 0.022);
+          branch.position.set(s * 0.50, 1.05, 0.04);
+          branch.rotation.z = s * 0.45;
+        });
+        break;
+      case 'ear_pointed':
+        addPair((g, s) => {
+          const m = this._addOutlinedMesh(g, new THREE.ConeGeometry(0.13, 0.32, 14), mat, 0.028);
+          m.scale.set(0.6, 1, 0.8);
+          m.position.set(s * 0.82, 0.28, 0.0);
+          m.rotation.z = -s * 1.45;
+        });
+        break;
+      case 'ear_fluffy_top':
+        addPair((g, s) => {
+          [-0.06, 0.06].forEach((dx, idx) => {
+            const m = this._addOutlinedMesh(g, new THREE.SphereGeometry(idx === 0 ? 0.14 : 0.11, 16, 14), mat, 0.026);
+            m.position.set(s * (0.46 + dx), 0.88, 0.0);
+          });
+        });
+        break;
       case 'ear_round':
       default:
         addPair((g, s) => {
@@ -658,6 +722,54 @@ class ChiikawaRenderer {
       m.scale.set(1.2, 1, 0.45);
       m.position.set(0.06, 0.70, 0.62);
       m.rotation.set(Math.PI * 0.80, 0, 0.65);
+    } else if (hairType === 'hair_bob') {
+      [-1, 1].forEach(s => {
+        const m = this._addOutlinedMesh(group, new THREE.SphereGeometry(0.18, 18, 14), mat, 0.024, 1);
+        m.scale.set(1.15, 0.52, 0.35);
+        m.position.set(s * 0.15, 0.69, 0.62);
+        m.rotation.set(0.24, 0, -s * 0.3);
+      });
+    } else if (hairType === 'hair_messy') {
+      [-0.14, 0, 0.14].forEach((x, i) => {
+        const m = this._addOutlinedMesh(group, new THREE.ConeGeometry(0.09, 0.22, 10), mat, 0.026, 1);
+        m.position.set(x, 0.94 + (i === 1 ? 0.04 : 0), 0.12);
+        m.rotation.set(-0.15, 0, (i - 1) * 0.35);
+      });
+    } else if (hairType === 'hair_braid') {
+      [0, 1, 2].forEach(i => {
+        const m = this._addOutlinedMesh(group, new THREE.SphereGeometry(0.08 - i * 0.012, 14, 10), mat, 0.022, 1);
+        m.position.set(0.68, 0.56 - i * 0.12, 0.08);
+      });
+    } else if (hairType === 'hair_ponytail') {
+      const m = this._addOutlinedMesh(group, new THREE.CapsuleGeometry(0.10, 0.34, 10, 18), mat, 0.026, 1);
+      m.position.set(0.25, 1.05, -0.15);
+      m.rotation.set(-0.6, 0, 0.5);
+    } else if (hairType === 'hair_wavy_fringe') {
+      [-0.18, -0.06, 0.06, 0.18].forEach(x => {
+        const m = this._addOutlinedMesh(group, new THREE.SphereGeometry(0.09, 14, 10), mat, 0.022, 1);
+        m.scale.set(1, 0.7, 0.4);
+        m.position.set(x, 0.67, 0.64);
+      });
+    } else if (hairType === 'hair_cowlick') {
+      const curve = new THREE.CatmullRomCurve3([
+        new THREE.Vector3(0, 0.88, 0.10),
+        new THREE.Vector3(0.06, 1.04, 0.10),
+        new THREE.Vector3(-0.08, 1.14, 0.10)
+      ]);
+      this._addOutlinedMesh(group, new THREE.TubeGeometry(curve, 14, 0.038, 10, false), mat, 0.024, 1);
+    } else if (hairType === 'hair_dreadlocks') {
+      [-1, 1].forEach(s => {
+        const m = this._addOutlinedMesh(group, new THREE.CylinderGeometry(0.05, 0.04, 0.36, 10), mat, 0.024, 1);
+        m.position.set(s * 0.70, 0.42, 0.05);
+        m.rotation.z = s * 0.25;
+      });
+    } else if (hairType === 'hair_curtains') {
+      [-1, 1].forEach(s => {
+        const m = this._addOutlinedMesh(group, new THREE.ConeGeometry(0.12, 0.26, 12), mat, 0.024, 1);
+        m.scale.set(1, 1, 0.4);
+        m.position.set(s * 0.22, 0.66, 0.61);
+        m.rotation.set(Math.PI * 0.82, 0, -s * 0.42);
+      });
     }
   }
 
@@ -1274,6 +1386,62 @@ class ChiikawaRenderer {
       ctx.globalAlpha = 0.3;
       ctx.beginPath(); ctx.ellipse(fx, fy + 26, 46, 28, 0, 0, Math.PI * 2); ctx.fill();
       ctx.globalAlpha = 1;
+    } else if (state.marking === 'mark_heart') {
+      ctx.fillStyle = pointCol;
+      this._drawCanvasHeart(ctx, lx - 44, fy + 38, 20);
+    } else if (state.marking === 'mark_cross') {
+      ctx.fillStyle = '#FFE082';
+      ctx.strokeStyle = '#D78B2C';
+      ctx.lineWidth = 3;
+      ctx.save();
+      ctx.translate(rx + 42, fy + 24);
+      ctx.rotate(0.35);
+      ctx.fillRect(-22, -7, 44, 14); ctx.strokeRect(-22, -7, 44, 14);
+      ctx.fillRect(-7, -22, 14, 44); ctx.strokeRect(-7, -22, 14, 44);
+      ctx.restore();
+    } else if (state.marking === 'mark_whiskers') {
+      ctx.strokeStyle = pointCol;
+      ctx.lineWidth = 6;
+      ctx.lineCap = 'round';
+      [-1, 1].forEach(s => {
+        const bx = s === -1 ? lx - 46 : rx + 46;
+        ctx.beginPath(); ctx.moveTo(bx, fy + 10); ctx.lineTo(bx + s * 34, fy + 2); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(bx, fy + 22); ctx.lineTo(bx + s * 36, fy + 22); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(bx, fy + 34); ctx.lineTo(bx + s * 34, fy + 42); ctx.stroke();
+      });
+    } else if (state.marking === 'mark_lightning') {
+      ctx.fillStyle = pointCol;
+      ctx.beginPath();
+      ctx.moveTo(fx, fy - 110);
+      ctx.lineTo(fx - 14, fy - 72);
+      ctx.lineTo(fx - 3, fy - 70);
+      ctx.lineTo(fx - 16, fy - 36);
+      ctx.lineTo(fx + 10, fy - 66);
+      ctx.lineTo(fx - 1, fy - 68);
+      ctx.closePath();
+      ctx.fill();
+    } else if (state.marking === 'mark_panda') {
+      ctx.fillStyle = pointCol;
+      ctx.beginPath(); ctx.ellipse(lx, fy, 44, 40, -0.2, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.ellipse(rx, fy, 44, 40, 0.2, 0, Math.PI * 2); ctx.fill();
+    } else if (state.marking === 'mark_spot') {
+      ctx.fillStyle = pointCol;
+      ctx.beginPath(); ctx.ellipse(lx, fy - 4, 48, 44, -0.15, 0, Math.PI * 2); ctx.fill();
+    } else if (state.marking === 'mark_clover') {
+      ctx.fillStyle = '#66BB6A';
+      for (let i = 0; i < 4; i++) {
+        const a = (i / 4) * Math.PI * 2;
+        ctx.beginPath(); ctx.arc(fx + Math.cos(a) * 11, fy - 80 + Math.sin(a) * 11, 8, 0, Math.PI * 2); ctx.fill();
+      }
+      ctx.strokeStyle = '#43A047'; ctx.lineWidth = 4;
+      ctx.beginPath(); ctx.moveTo(fx, fy - 80); ctx.quadraticCurveTo(fx + 6, fy - 64, fx + 2, fy - 56); ctx.stroke();
+    } else if (state.marking === 'mark_teardrop') {
+      ctx.fillStyle = '#29B6F6';
+      ctx.beginPath();
+      ctx.moveTo(rx, fy + 26);
+      ctx.bezierCurveTo(rx - 9, fy + 38, rx - 9, fy + 48, rx, fy + 48);
+      ctx.bezierCurveTo(rx + 9, fy + 48, rx + 9, fy + 38, rx, fy + 26);
+      ctx.fill();
     }
 
     const cheekDist = 156 + spacingOff * 0.7;
@@ -1296,6 +1464,51 @@ class ChiikawaRenderer {
           ctx.beginPath(); ctx.ellipse(cx, cy, 38, 20, 0, 0, Math.PI * 2); ctx.fill();
           ctx.fillStyle = '#FFF59D';
           this._drawCanvasStar(ctx, cx, cy, 4, 14, 5);
+        } else if (blushStyle === 'blush_flushed') {
+          ctx.fillStyle = '#FF5277';
+          ctx.beginPath(); ctx.ellipse(cx, cy, 48, 28, 0, 0, Math.PI * 2); ctx.fill();
+        } else if (blushStyle === 'blush_stripes') {
+          ctx.strokeStyle = '#FF4081';
+          ctx.lineWidth = 6;
+          ctx.lineCap = 'round';
+          [-16, 0, 16].forEach(dx => {
+            ctx.beginPath(); ctx.moveTo(cx + dx + 7, cy - 14); ctx.lineTo(cx + dx - 7, cy + 14); ctx.stroke();
+          });
+        } else if (blushStyle === 'blush_dots') {
+          ctx.fillStyle = '#FF6B8B';
+          [-14, 0, 14].forEach(dx => {
+            ctx.beginPath(); ctx.arc(cx + dx, cy + (dx === 0 ? -4 : 4), 6, 0, Math.PI * 2); ctx.fill();
+          });
+        } else if (blushStyle === 'blush_cat') {
+          ctx.strokeStyle = '#FF6B8B';
+          ctx.lineWidth = 5;
+          ctx.lineCap = 'round';
+          [-12, 0, 12].forEach(dy => {
+            ctx.beginPath(); ctx.moveTo(cx - 18, cy + dy); ctx.lineTo(cx + 18, cy + dy); ctx.stroke();
+          });
+        } else if (blushStyle === 'blush_spiral') {
+          ctx.strokeStyle = '#FF4081';
+          ctx.lineWidth = 5;
+          ctx.beginPath();
+          for (let i = 0; i < 3; i++) {
+            ctx.arc(cx, cy, 6 + i * 6.5, 0, Math.PI * 1.85);
+          }
+          ctx.stroke();
+        } else if (blushStyle === 'blush_flower') {
+          ctx.fillStyle = '#FF80AB';
+          for (let i = 0; i < 5; i++) {
+            const a = (i / 5) * Math.PI * 2;
+            ctx.beginPath(); ctx.arc(cx + Math.cos(a) * 11, cy + Math.sin(a) * 11, 7.5, 0, Math.PI * 2); ctx.fill();
+          }
+          ctx.fillStyle = '#FFF59D';
+          ctx.beginPath(); ctx.arc(cx, cy, 5, 0, Math.PI * 2); ctx.fill();
+        } else if (blushStyle === 'blush_rainbow') {
+          const rCols = ['#FF8A80', '#FFFF8D', '#80D8FF'];
+          rCols.forEach((col, i) => {
+            ctx.strokeStyle = col;
+            ctx.lineWidth = 6;
+            ctx.beginPath(); ctx.moveTo(cx - 24, cy - 8 + i * 8); ctx.lineTo(cx + 24, cy - 8 + i * 8); ctx.stroke();
+          });
         } else {
           ctx.fillStyle = '#FABCC8';
           ctx.beginPath();
@@ -1370,6 +1583,88 @@ class ChiikawaRenderer {
       ctx.beginPath(); ctx.arc(rx, fy, 48, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
       ctx.lineWidth = 5;
       ctx.beginPath(); ctx.moveTo(rx + 46, fy + 8); ctx.quadraticCurveTo(rx + 66, fy + 55, rx + 50, fy + 95); ctx.stroke();
+    } else if (glasses === 'glasses_retro') {
+      ctx.fillStyle = 'rgba(255,255,255,0.20)';
+      [lx, rx].forEach(x => {
+        ctx.beginPath();
+        if (ctx.roundRect) ctx.roundRect(x - 44, fy - 36, 88, 72, 10);
+        else ctx.rect(x - 44, fy - 36, 88, 72);
+        ctx.fill(); ctx.stroke();
+      });
+      ctx.beginPath(); ctx.moveTo(lx + 44, fy); ctx.lineTo(rx - 44, fy); ctx.stroke();
+    } else if (glasses === 'glasses_sunglasses') {
+      ctx.fillStyle = '#261C19';
+      [lx, rx].forEach(x => {
+        ctx.beginPath(); ctx.ellipse(x, fy + 4, 46, 38, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+      });
+      ctx.strokeStyle = '#FFD54F';
+      ctx.lineWidth = 7;
+      ctx.beginPath(); ctx.moveTo(lx + 40, fy - 18); ctx.lineTo(rx - 40, fy - 18); ctx.stroke();
+    } else if (glasses === 'glasses_pixel') {
+      ctx.fillStyle = '#111111';
+      [lx, rx].forEach(x => {
+        ctx.fillRect(x - 44, fy - 22, 88, 44);
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(x - 30, fy - 14, 12, 12);
+        ctx.fillRect(x + 10, fy - 2, 12, 12);
+        ctx.fillStyle = '#111111';
+      });
+      ctx.fillRect(lx + 36, fy - 10, rx - lx - 72, 14);
+    } else if (glasses === 'glasses_goggles') {
+      ctx.fillStyle = 'rgba(129,212,250,0.55)';
+      ctx.strokeStyle = '#D78B2C';
+      ctx.lineWidth = 11;
+      [lx, rx].forEach(x => {
+        ctx.beginPath(); ctx.arc(x, fy, 46, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+      });
+      ctx.strokeStyle = '#5D4037';
+      ctx.lineWidth = 9;
+      ctx.beginPath(); ctx.moveTo(lx - 46, fy); ctx.lineTo(lx - 76, fy); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(rx + 46, fy); ctx.lineTo(rx + 76, fy); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(lx + 46, fy); ctx.lineTo(rx - 46, fy); ctx.stroke();
+    } else if (glasses === 'glasses_dizzy') {
+      ctx.fillStyle = 'rgba(255,255,255,0.85)';
+      [lx, rx].forEach(x => {
+        ctx.beginPath(); ctx.arc(x, fy, 45, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+        ctx.strokeStyle = '#5D4037';
+        ctx.lineWidth = 5;
+        for (let i = 0; i < 3; i++) {
+          ctx.beginPath(); ctx.arc(x, fy, 12 + i * 11, 0, Math.PI * 1.85); ctx.stroke();
+        }
+      });
+      ctx.strokeStyle = '#3A2E2B';
+      ctx.lineWidth = 9;
+      ctx.beginPath(); ctx.moveTo(lx + 45, fy); ctx.lineTo(rx - 45, fy); ctx.stroke();
+    } else if (glasses === 'glasses_half') {
+      ctx.fillStyle = 'rgba(255,255,255,0.22)';
+      ctx.lineWidth = 6;
+      [lx, rx].forEach(x => {
+        ctx.beginPath(); ctx.arc(x, fy + 8, 42, 0, Math.PI); ctx.closePath(); ctx.fill(); ctx.stroke();
+      });
+      ctx.beginPath(); ctx.moveTo(lx + 42, fy + 8); ctx.lineTo(rx - 42, fy + 8); ctx.stroke();
+    } else if (glasses === 'glasses_cat') {
+      ctx.fillStyle = '#E91E63';
+      [lx, rx].forEach((x, idx) => {
+        const s = idx === 0 ? -1 : 1;
+        ctx.beginPath();
+        ctx.moveTo(x - 44 * s, fy + 18);
+        ctx.lineTo(x + 56 * s, fy - 26);
+        ctx.lineTo(x + 36 * s, fy + 26);
+        ctx.closePath();
+        ctx.fill(); ctx.stroke();
+      });
+      ctx.beginPath(); ctx.moveTo(lx + 40, fy); ctx.lineTo(rx - 40, fy); ctx.stroke();
+    } else if (glasses === 'glasses_sleep') {
+      ctx.fillStyle = '#C5CAE9';
+      ctx.beginPath();
+      if (ctx.roundRect) ctx.roundRect(fx - 140, fy - 36, 280, 72, 36);
+      else ctx.rect(fx - 140, fy - 36, 280, 72);
+      ctx.fill(); ctx.stroke();
+      ctx.strokeStyle = '#3F51B5';
+      ctx.lineWidth = 6;
+      [lx, rx].forEach(x => {
+        ctx.beginPath(); ctx.arc(x, fy + 4, 18, Math.PI * 1.15, Math.PI * 1.85); ctx.stroke();
+      });
     }
     ctx.restore();
   }
@@ -1393,6 +1688,81 @@ class ChiikawaRenderer {
       ctx.lineWidth = 8.5;
       ctx.beginPath(); ctx.moveTo(x - 20, y); ctx.lineTo(x + 20, y); ctx.stroke();
       ctx.beginPath(); ctx.arc(x, y + 3, 17, 0, Math.PI); ctx.fill();
+      return;
+    }
+    if (style === 'eye_crying') {
+      ctx.beginPath(); ctx.ellipse(x, y - 2, 28, 30, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#FFFFFF';
+      ctx.beginPath(); ctx.ellipse(x - 8, y - 10, 11, 9, -0.2, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#81D4FA';
+      ctx.beginPath(); ctx.arc(x, y + 4, 22, Math.PI * 0.08, Math.PI * 0.92); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = '#4FC3F7';
+      ctx.beginPath(); ctx.arc(x + (isRight ? 16 : -16), y + 26, 6.5, 0, Math.PI * 2); ctx.fill();
+      return;
+    }
+    if (style === 'eye_dizzy') {
+      ctx.lineWidth = 7;
+      ctx.beginPath();
+      for (let i = 0; i < 4; i++) {
+        ctx.arc(x, y, 7 + i * 6.5, 0, Math.PI * 1.8);
+      }
+      ctx.stroke();
+      return;
+    }
+    if (style === 'eye_heart') {
+      ctx.fillStyle = '#F0627D';
+      ctx.beginPath();
+      ctx.moveTo(x, y + 18);
+      ctx.bezierCurveTo(x - 26, y - 4, x - 22, y - 24, x, y - 8);
+      ctx.bezierCurveTo(x + 22, y - 24, x + 26, y - 4, x, y + 18);
+      ctx.fill();
+      ctx.fillStyle = '#FFFFFF';
+      ctx.beginPath(); ctx.arc(x - 6, y - 8, 4, 0, Math.PI * 2); ctx.fill();
+      return;
+    }
+    if (style === 'eye_angry') {
+      ctx.lineWidth = 8.5;
+      const tilt = isRight ? 0.35 : -0.35;
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(tilt);
+      ctx.beginPath(); ctx.moveTo(-22, -8); ctx.lineTo(22, 6); ctx.stroke();
+      ctx.beginPath(); ctx.arc(0, 6, 18, 0, Math.PI); ctx.fill();
+      ctx.fillStyle = '#FFFFFF';
+      ctx.beginPath(); ctx.arc(-4, 10, 4.5, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
+      return;
+    }
+    if (style === 'eye_cross') {
+      ctx.lineWidth = 8;
+      const s = isRight ? 1 : -1;
+      ctx.beginPath();
+      ctx.moveTo(x - 18 * s, y - 16); ctx.lineTo(x + 14 * s, y); ctx.lineTo(x - 18 * s, y + 16);
+      ctx.stroke();
+      return;
+    }
+    if (style === 'eye_squint') {
+      ctx.lineWidth = 8;
+      ctx.beginPath(); ctx.arc(x, y + 4, 20, Math.PI * 1.15, Math.PI * 1.85); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(x + (isRight ? 16 : -16), y); ctx.lineTo(x + (isRight ? 24 : -24), y - 4); ctx.stroke();
+      return;
+    }
+    if (style === 'eye_sparkle_big') {
+      ctx.beginPath(); ctx.ellipse(x, y, 31, 34, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#FFFFFF';
+      ctx.beginPath(); ctx.ellipse(x - 8, y - 10, 13, 11, -0.2, 0, Math.PI * 2); ctx.fill();
+      this._drawCanvasStar(ctx, x + 10, y - 9, 4, 8, 2.5);
+      this._drawCanvasStar(ctx, x - 8, y + 10, 4, 6, 2);
+      ctx.beginPath(); ctx.arc(x + 10, y + 8, 5, 0, Math.PI * 2); ctx.fill();
+      return;
+    }
+    if (style === 'eye_glance') {
+      ctx.beginPath(); ctx.ellipse(x, y, 28, 30, 0, 0, Math.PI * 2); ctx.fill();
+      const lookOffset = 10;
+      ctx.fillStyle = '#FFFFFF';
+      ctx.beginPath(); ctx.arc(x + lookOffset, y - 6, 9, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#EAE6DF';
+      ctx.beginPath(); ctx.arc(x + lookOffset - 2, y + 8, 7, 0, Math.PI * 2); ctx.fill();
       return;
     }
     if (style === 'eye_calm') {
@@ -1521,6 +1891,83 @@ class ChiikawaRenderer {
       return;
     }
 
+    if (eff === 'mouth_fang') {
+      ctx.beginPath();
+      ctx.moveTo(x - 17, y);
+      ctx.quadraticCurveTo(x - 8.5, y + 13, x, y - 1);
+      ctx.quadraticCurveTo(x + 8.5, y + 13, x + 17, y);
+      ctx.stroke();
+      ctx.fillStyle = '#FFFFFF';
+      ctx.strokeStyle = this.outlineHex;
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(x - 8, y + 6);
+      ctx.lineTo(x - 4, y + 18);
+      ctx.lineTo(x, y + 6);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+      return;
+    }
+    if (eff === 'mouth_surprised') {
+      ctx.fillStyle = '#F0627D';
+      ctx.beginPath(); ctx.ellipse(x, y + 8, 11, 16, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+      return;
+    }
+    if (eff === 'mouth_cry') {
+      ctx.beginPath();
+      ctx.moveTo(x - 18, y + 14);
+      ctx.quadraticCurveTo(x - 9, y + 2, x, y + 10);
+      ctx.quadraticCurveTo(x + 9, y + 2, x + 18, y + 14);
+      ctx.stroke();
+      return;
+    }
+    if (eff === 'mouth_smirk') {
+      ctx.beginPath();
+      ctx.moveTo(x - 14, y + 12);
+      ctx.quadraticCurveTo(x - 2, y + 10, x + 16, y - 2);
+      ctx.stroke();
+      return;
+    }
+    if (eff === 'mouth_tongue') {
+      ctx.beginPath(); ctx.moveTo(x - 16, y + 4); ctx.quadraticCurveTo(x, y - 3, x + 16, y + 4); ctx.stroke();
+      ctx.fillStyle = '#FF7597';
+      ctx.beginPath();
+      ctx.arc(x + 2, y + 14, 10, 0, Math.PI);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+      return;
+    }
+    if (eff === 'mouth_open_smile') {
+      ctx.fillStyle = '#F0627D';
+      ctx.beginPath();
+      ctx.arc(x, y + 6, 20, 0, Math.PI);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = '#FFA4B8';
+      ctx.beginPath();
+      ctx.arc(x, y + 18, 12, Math.PI * 1.1, Math.PI * 1.9);
+      ctx.fill();
+      return;
+    }
+    if (eff === 'mouth_triangle') {
+      ctx.fillStyle = '#F0627D';
+      ctx.beginPath();
+      ctx.moveTo(x - 16, y + 14);
+      ctx.lineTo(x, y - 3);
+      ctx.lineTo(x + 16, y + 14);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+      return;
+    }
+    if (eff === 'mouth_flat') {
+      ctx.beginPath(); ctx.moveTo(x - 14, y + 8); ctx.lineTo(x + 14, y + 8); ctx.stroke();
+      return;
+    }
+
     ctx.beginPath();
     ctx.moveTo(x - 17, y);
     ctx.quadraticCurveTo(x - 8.5, y + 13, x, y - 1);
@@ -1532,6 +1979,14 @@ class ChiikawaRenderer {
     ctx.moveTo(x - 4.5, y + 19);
     ctx.lineTo(x + 4.5, y + 19);
     ctx.stroke();
+  }
+
+  _drawCanvasHeart(ctx, cx, cy, size) {
+    ctx.beginPath();
+    ctx.moveTo(cx, cy + size * 0.8);
+    ctx.bezierCurveTo(cx - size * 1.1, cy, cx - size * 0.9, cy - size * 0.9, cx, cy - size * 0.3);
+    ctx.bezierCurveTo(cx + size * 0.9, cy - size * 0.9, cx + size * 1.1, cy, cx, cy + size * 0.8);
+    ctx.fill();
   }
 
   _drawCanvasStar(ctx, cx, cy, spikes, outerR, innerR) {
@@ -1677,7 +2132,15 @@ class ChiikawaRenderer {
       ear_side: `<circle cx="38" cy="100" r="10" fill="${earCol}" stroke="${ink}" stroke-width="3.2" /><circle cx="162" cy="100" r="10" fill="${earCol}" stroke="${ink}" stroke-width="3.2" />`,
       ear_antenna: `<path d="M76,60 Q72,38 66,32" fill="none" stroke="${ink}" stroke-width="3" stroke-linecap="round" /><circle cx="65" cy="31" r="6" fill="${earCol}" stroke="${ink}" stroke-width="2.8" /><path d="M124,60 Q128,38 134,32" fill="none" stroke="${ink}" stroke-width="3" stroke-linecap="round" /><circle cx="135" cy="31" r="6" fill="${earCol}" stroke="${ink}" stroke-width="2.8" />`,
       ear_fin: `<polygon points="44,80 26,96 46,104" fill="${earCol}" stroke="${ink}" stroke-width="3.2" stroke-linejoin="round" /><polygon points="156,80 174,96 154,104" fill="${earCol}" stroke="${ink}" stroke-width="3.2" stroke-linejoin="round" />`,
-      ear_leaf: `<ellipse cx="62" cy="56" rx="13" ry="7.5" transform="rotate(-30 62 56)" fill="#81C784" stroke="${ink}" stroke-width="3" /><ellipse cx="138" cy="56" rx="13" ry="7.5" transform="rotate(30 138 56)" fill="#81C784" stroke="${ink}" stroke-width="3" />`
+      ear_leaf: `<ellipse cx="62" cy="56" rx="13" ry="7.5" transform="rotate(-30 62 56)" fill="#81C784" stroke="${ink}" stroke-width="3" /><ellipse cx="138" cy="56" rx="13" ry="7.5" transform="rotate(30 138 56)" fill="#81C784" stroke="${ink}" stroke-width="3" />`,
+      ear_devil: `<polygon points="56,70 48,42 74,60" fill="${earCol}" stroke="${ink}" stroke-width="3.2" stroke-linejoin="round" /><polygon points="144,70 152,42 126,60" fill="${earCol}" stroke="${ink}" stroke-width="3.2" stroke-linejoin="round" />`,
+      ear_curled: `<path d="M54,68 C40,50 32,70 46,78 C52,82 58,74 54,68" fill="${earCol}" stroke="${ink}" stroke-width="3.2" stroke-linejoin="round" /><path d="M146,68 C160,50 168,70 154,78 C148,82 142,74 146,68" fill="${earCol}" stroke="${ink}" stroke-width="3.2" stroke-linejoin="round" />`,
+      ear_dragon: `<path d="M52,72 L32,56 L44,66 L30,76 L48,78 Z" fill="${earCol}" stroke="${ink}" stroke-width="3" stroke-linejoin="round" /><path d="M148,72 L168,56 L156,66 L170,76 L152,78 Z" fill="${earCol}" stroke="${ink}" stroke-width="3" stroke-linejoin="round" />`,
+      ear_bunny_droop: `<ellipse cx="40" cy="105" rx="9" ry="32" transform="rotate(12 40 105)" fill="${earCol}" stroke="${ink}" stroke-width="3.2" /><ellipse cx="160" cy="105" rx="9" ry="32" transform="rotate(-12 160 105)" fill="${earCol}" stroke="${ink}" stroke-width="3.2" />`,
+      ear_mouse: `<circle cx="48" cy="54" r="18" fill="${earCol}" stroke="${ink}" stroke-width="3.2" /><circle cx="48" cy="54" r="10" fill="#FFBAC4" /><circle cx="152" cy="54" r="18" fill="${earCol}" stroke="${ink}" stroke-width="3.2" /><circle cx="152" cy="54" r="10" fill="#FFBAC4" />`,
+      ear_deer: `<ellipse cx="50" cy="50" rx="9" ry="22" transform="rotate(-35 50 50)" fill="${earCol}" stroke="${ink}" stroke-width="3.2" /><ellipse cx="50" cy="50" rx="5" ry="14" transform="rotate(-35 50 50)" fill="#FFBAC4" /><ellipse cx="150" cy="50" rx="9" ry="22" transform="rotate(35 150 50)" fill="${earCol}" stroke="${ink}" stroke-width="3.2" /><ellipse cx="150" cy="50" rx="5" ry="14" transform="rotate(35 150 50)" fill="#FFBAC4" />`,
+      ear_pointed: `<polygon points="50,84 20,80 48,96" fill="${earCol}" stroke="${ink}" stroke-width="3.2" stroke-linejoin="round" /><polygon points="150,84 180,80 152,96" fill="${earCol}" stroke="${ink}" stroke-width="3.2" stroke-linejoin="round" />`,
+      ear_fluffy_top: `<g fill="${earCol}" stroke="${ink}" stroke-width="2.8"><circle cx="56" cy="60" r="10" /><circle cx="68" cy="54" r="9" /><circle cx="144" cy="60" r="10" /><circle cx="132" cy="54" r="9" /></g>`
     };
     const ears = earMap[state.earType] !== undefined ? earMap[state.earType] : earMap.ear_round;
 
@@ -1705,6 +2168,22 @@ class ChiikawaRenderer {
       hairSvg = `<polygon points="92,60 96,38 102,52 106,40 110,60" fill="${earCol}" stroke="${ink}" stroke-width="2.6" stroke-linejoin="round" />`;
     } else if (state.hairType === 'hair_swoop') {
       hairSvg = `<path d="M90,62 Q106,76 124,68" fill="${earCol}" stroke="${ink}" stroke-width="2.8" stroke-linecap="round" />`;
+    } else if (state.hairType === 'hair_bob') {
+      hairSvg = `<path d="M60,78 Q60,54 100,54 Q140,54 140,78 L144,98 Q136,104 130,94 Q124,66 100,66 Q76,66 70,94 Q64,104 56,98 Z" fill="${earCol}" stroke="${ink}" stroke-width="2.8" stroke-linejoin="round" />`;
+    } else if (state.hairType === 'hair_messy') {
+      hairSvg = `<path d="M72,66 L78,48 L88,58 L98,44 L106,56 L118,46 L124,64 L114,66 L100,64 L86,66 Z" fill="${earCol}" stroke="${ink}" stroke-width="2.8" stroke-linejoin="round" />`;
+    } else if (state.hairType === 'hair_braid') {
+      hairSvg = `<g fill="${earCol}" stroke="${ink}" stroke-width="2.4"><ellipse cx="52" cy="80" rx="7" ry="6" transform="rotate(-15 52 80)" /><ellipse cx="48" cy="92" rx="6.5" ry="5.5" transform="rotate(15 48 92)" /><ellipse cx="45" cy="104" rx="6" ry="5" transform="rotate(-15 45 104)" /><ellipse cx="43" cy="115" rx="5" ry="4" transform="rotate(10 43 115)" /><circle cx="42" cy="122" r="3.5" fill="#FF80AB" /></g>`;
+    } else if (state.hairType === 'hair_ponytail') {
+      hairSvg = `<path d="M106,52 Q128,34 136,46 Q142,58 132,68 Q126,58 116,56 Z" fill="${earCol}" stroke="${ink}" stroke-width="2.8" stroke-linejoin="round" /><ellipse cx="110" cy="54" rx="4" ry="5" fill="#F0627D" stroke="${ink}" stroke-width="1.8" />`;
+    } else if (state.hairType === 'hair_wavy_fringe') {
+      hairSvg = `<path d="M70,64 Q82,78 92,66 Q100,74 108,66 Q118,78 130,64" fill="none" stroke="${ink}" stroke-width="3.5" stroke-linecap="round" />`;
+    } else if (state.hairType === 'hair_cowlick') {
+      hairSvg = `<path d="M96,58 Q88,38 78,42 M104,58 Q112,38 122,42" fill="none" stroke="${ink}" stroke-width="3" stroke-linecap="round" />`;
+    } else if (state.hairType === 'hair_dreadlocks') {
+      hairSvg = `<g stroke="${ink}" stroke-width="4.5" stroke-linecap="round"><line x1="72" y1="62" x2="68" y2="92" /><line x1="82" y1="58" x2="80" y2="82" /><line x1="118" y1="58" x2="120" y2="82" /><line x1="128" y1="62" x2="132" y2="92" /></g>`;
+    } else if (state.hairType === 'hair_curtains') {
+      hairSvg = `<path d="M100,58 Q84,60 74,86 L80,88 Q88,68 100,66 Q112,68 120,88 L126,86 Q116,60 100,58 Z" fill="${earCol}" stroke="${ink}" stroke-width="2.6" stroke-linejoin="round" />`;
     }
 
     // Head Accessories
@@ -1820,7 +2299,7 @@ class ChiikawaRenderer {
       propSvg = `<circle cx="166" cy="146" r="10" fill="#BCAAA4" stroke="${ink}" stroke-width="2.2" /><circle cx="159" cy="137" r="4" fill="#BCAAA4" stroke="${ink}" stroke-width="2" /><circle cx="173" cy="137" r="4" fill="#BCAAA4" stroke="${ink}" stroke-width="2" />`;
     }
 
-    // Face Features (all 9 eyeStyles distinct)
+    // Face Features (all 17 eyeStyles distinct)
     const eyePair = (x, isR) => {
       const st = state.eyeStyle || 'eye_round';
       if (st === 'eye_happy' || (st === 'eye_wink' && isR)) {
@@ -1844,6 +2323,30 @@ class ChiikawaRenderer {
       if (st === 'eye_star') {
         return `<ellipse cx="${x}" cy="108" rx="6.8" ry="7.4" fill="${eyeInk}" /><polygon points="${x},102 ${x+2},106 ${x+6},107 ${x+3},110 ${x+4},114 ${x},111 ${x-4},114 ${x-3},110 ${x-6},107 ${x-2},106" fill="#FFF59D" />`;
       }
+      if (st === 'eye_crying') {
+        return `<ellipse cx="${x}" cy="108" rx="6.6" ry="7.2" fill="${eyeInk}" /><circle cx="${x - 1.5}" cy="105" r="2.2" fill="#FFFFFF" /><path d="M${x - 6},112 Q${x},126 ${x + 6},112" fill="#64B5F6" opacity="0.8" /><path d="M${x - 4},114 Q${x - 6},128 ${x - 2},132 M${x + 4},114 Q${x + 6},128 ${x + 2},132" stroke="#64B5F6" stroke-width="2.5" stroke-linecap="round" fill="none" />`;
+      }
+      if (st === 'eye_dizzy') {
+        return `<path d="M${x},108 m -7,0 a 7,7 0 1,0 14,0 a 5,5 0 1,0 -10,0 a 3,3 0 1,0 6,0" fill="none" stroke="${eyeInk}" stroke-width="2.2" stroke-linecap="round" />`;
+      }
+      if (st === 'eye_heart') {
+        return `<path d="M${x},114 C${x - 9},104 ${x - 9},97 ${x - 4},96 C${x - 1},95 ${x},99 ${x},99 C${x},99 ${x + 1},95 ${x + 4},96 C${x + 9},97 ${x + 9},104 ${x},114 Z" fill="#FF4081" stroke="${eyeInk}" stroke-width="1.8" /><circle cx="${x - 2}" cy="102" r="1.8" fill="#FFFFFF" />`;
+      }
+      if (st === 'eye_angry') {
+        return `<polygon points="${x - (isR ? 6 : 8)},${isR ? 104 : 112} ${x + (isR ? 8 : 6)},${isR ? 112 : 104} ${x + (isR ? 5 : 3)},113 ${x - (isR ? 3 : 5)},113" fill="${eyeInk}" /><circle cx="${x}" cy="109" r="4.5" fill="${eyeInk}" /><circle cx="${x - 1}" cy="108" r="1.6" fill="#FFFFFF" />`;
+      }
+      if (st === 'eye_cross') {
+        return `<line x1="${x - 6}" y1="102" x2="${x + 6}" y2="114" stroke="${eyeInk}" stroke-width="3.2" stroke-linecap="round" /><line x1="${x + 6}" y1="102" x2="${x - 6}" y2="114" stroke="${eyeInk}" stroke-width="3.2" stroke-linecap="round" />`;
+      }
+      if (st === 'eye_squint') {
+        return `<path d="M${x - 7},108 Q${x},100 ${x + 7},108" fill="none" stroke="${eyeInk}" stroke-width="3.4" stroke-linecap="round" />`;
+      }
+      if (st === 'eye_sparkle_big') {
+        return `<ellipse cx="${x}" cy="108" rx="8" ry="8.6" fill="${eyeInk}" /><circle cx="${x - 2.5}" cy="103.5" r="3.2" fill="#FFFFFF" /><polygon points="${x+2},106 ${x+3},109 ${x+6},110 ${x+3},111 ${x+2},114 ${x+1},111 ${x-2},110 ${x+1},109" fill="#FFF59D" /><circle cx="${x - 3}" cy="112" r="1.5" fill="#FFFFFF" />`;
+      }
+      if (st === 'eye_glance') {
+        return `<ellipse cx="${x}" cy="108" rx="6.6" ry="7.2" fill="${eyeInk}" /><ellipse cx="${isR ? x + 3 : x + 3}" cy="107" rx="3.5" ry="4.5" fill="#3E2723" /><circle cx="${x + 2}" cy="105" r="2.2" fill="#FFFFFF" /><path d="M${x - 4.5},110 A4.8,4.8 0 0 0 ${x + 4.5},110 Z" fill="#EAE6DF" />`;
+      }
       return `<ellipse cx="${x}" cy="108" rx="6.6" ry="7.2" fill="${eyeInk}" /><ellipse cx="${x}" cy="105.5" rx="2.6" ry="2" fill="#FFFFFF" /><path d="M${x - 4.5},110 A4.8,4.8 0 0 0 ${x + 4.5},110 Z" fill="#EAE6DF" />`;
     };
 
@@ -1866,6 +2369,14 @@ class ChiikawaRenderer {
     else if (effM === 'mouth_small') mouthSvg = `<path d="M95,119 Q100,114 105,119" fill="none" stroke="${eyeInk}" stroke-width="2.2" stroke-linecap="round" />`;
     else if (effM === 'mouth_wavy') mouthSvg = `<path d="M92,119 Q96,115 100,119 Q104,123 108,119" fill="none" stroke="${eyeInk}" stroke-width="2.2" stroke-linecap="round" />`;
     else if (effM === 'mouth_dot') mouthSvg = `<circle cx="100" cy="118" r="2.8" fill="${eyeInk}" />`;
+    else if (effM === 'mouth_fang') mouthSvg = `<path d="M94,117 Q97,120.5 100,116.5 Q103,120.5 106,117" fill="none" stroke="${eyeInk}" stroke-width="2.2" stroke-linecap="round" /><polygon points="98,118 102,118 100,123" fill="#FFFFFF" stroke="${eyeInk}" stroke-width="1.4" stroke-linejoin="round" />`;
+    else if (effM === 'mouth_surprised') mouthSvg = `<ellipse cx="100" cy="120" rx="4.5" ry="6.5" fill="#F0627D" stroke="${eyeInk}" stroke-width="2" />`;
+    else if (effM === 'mouth_cry') mouthSvg = `<path d="M93,122 Q100,113 107,122" fill="#F0627D" stroke="${eyeInk}" stroke-width="2.2" stroke-linejoin="round" /><path d="M93,122 Q100,116 107,122 Z" fill="#F0627D" />`;
+    else if (effM === 'mouth_smirk') mouthSvg = `<path d="M95,119 Q103,121 108,114" fill="none" stroke="${eyeInk}" stroke-width="2.6" stroke-linecap="round" />`;
+    else if (effM === 'mouth_tongue') mouthSvg = `<path d="M93,117 Q100,124 107,117" fill="none" stroke="${eyeInk}" stroke-width="2.2" stroke-linecap="round" /><path d="M98,119 Q100,126 104,124 Q106,120 102,119 Z" fill="#FF4081" stroke="${eyeInk}" stroke-width="1.6" />`;
+    else if (effM === 'mouth_open_smile') mouthSvg = `<path d="M91,116 Q100,130 109,116 Z" fill="#D81B60" stroke="${eyeInk}" stroke-width="2" stroke-linejoin="round" /><path d="M94,123 Q100,120 106,123 Q103,128 97,128 Z" fill="#FF80AB" />`;
+    else if (effM === 'mouth_triangle') mouthSvg = `<polygon points="93,117 107,117 100,126" fill="#F0627D" stroke="${eyeInk}" stroke-width="2" stroke-linejoin="round" />`;
+    else if (effM === 'mouth_flat') mouthSvg = `<line x1="94" y1="118" x2="106" y2="118" stroke="${eyeInk}" stroke-width="2.4" stroke-linecap="round" />`;
 
     let markSvg = '';
     if (state.marking === 'mark_eyepatch') markSvg = `<ellipse cx="122" cy="108" rx="14" ry="12" fill="${pointCol}" />`;
@@ -1875,6 +2386,14 @@ class ChiikawaRenderer {
     else if (state.marking === 'mark_maro') markSvg = `<ellipse cx="78" cy="94" rx="5.5" ry="3.8" fill="${pointCol}" /><ellipse cx="122" cy="94" rx="5.5" ry="3.8" fill="${pointCol}" />`;
     else if (state.marking === 'mark_freckles') markSvg = `<circle cx="62" cy="118" r="1.5" fill="${pointCol}" /><circle cx="66" cy="120" r="1.5" fill="${pointCol}" /><circle cx="134" cy="120" r="1.5" fill="${pointCol}" /><circle cx="138" cy="118" r="1.5" fill="${pointCol}" />`;
     else if (state.marking === 'mark_muzzle') markSvg = `<ellipse cx="100" cy="117" rx="13" ry="8" fill="${pointCol}" opacity="0.3" />`;
+    else if (state.marking === 'mark_heart') markSvg = `<path d="M100,82 C93,73 91,65 96,63 C99,62 100,66 100,66 C100,66 101,62 104,63 C109,65 107,73 100,82 Z" fill="${pointCol}" />`;
+    else if (state.marking === 'mark_cross') markSvg = `<line x1="58" y1="96" x2="70" y2="108" stroke="${pointCol}" stroke-width="3" stroke-linecap="round" /><line x1="70" y1="96" x2="58" y2="108" stroke="${pointCol}" stroke-width="3" stroke-linecap="round" />`;
+    else if (state.marking === 'mark_whiskers') markSvg = `<line x1="42" y1="108" x2="60" y2="110" stroke="${pointCol}" stroke-width="2.2" stroke-linecap="round" /><line x1="40" y1="116" x2="58" y2="116" stroke="${pointCol}" stroke-width="2.2" stroke-linecap="round" /><line x1="42" y1="124" x2="60" y2="122" stroke="${pointCol}" stroke-width="2.2" stroke-linecap="round" /><line x1="158" y1="108" x2="140" y2="110" stroke="${pointCol}" stroke-width="2.2" stroke-linecap="round" /><line x1="160" y1="116" x2="142" y2="116" stroke="${pointCol}" stroke-width="2.2" stroke-linecap="round" /><line x1="158" y1="124" x2="140" y2="122" stroke="${pointCol}" stroke-width="2.2" stroke-linecap="round" />`;
+    else if (state.marking === 'mark_lightning') markSvg = `<polygon points="98,64 105,64 100,75 105,75 95,88 98,78 93,78" fill="${pointCol}" />`;
+    else if (state.marking === 'mark_panda') markSvg = `<ellipse cx="78" cy="108" rx="14" ry="12" transform="rotate(-15 78 108)" fill="${pointCol}" /><ellipse cx="122" cy="108" rx="14" ry="12" transform="rotate(15 122 108)" fill="${pointCol}" />`;
+    else if (state.marking === 'mark_spot') markSvg = `<ellipse cx="120" cy="85" rx="12" ry="10" transform="rotate(20 120 85)" fill="${pointCol}" />`;
+    else if (state.marking === 'mark_clover') markSvg = `<g fill="${pointCol}"><circle cx="97" cy="74" r="3.5" /><circle cx="103" cy="74" r="3.5" /><circle cx="97" cy="80" r="3.5" /><circle cx="103" cy="80" r="3.5" /><path d="M100,78 Q99,86 96,87" stroke="${pointCol}" stroke-width="1.8" fill="none" /></g>`;
+    else if (state.marking === 'mark_teardrop') markSvg = `<path d="M82,120 C80,123 78,126 82,128 C86,126 84,123 82,120 Z" fill="${pointCol}" />`;
 
     let blushSvg = `
       <ellipse cx="63" cy="120" rx="10.5" ry="5.8" fill="#FABCC8" />
@@ -1886,12 +2405,27 @@ class ChiikawaRenderer {
     else if (state.blushStyle === 'blush_heart') blushSvg = `<path d="M63,125 C56,120 56,114 60,113 C62,112 63,115 63,115 C63,115 64,112 66,113 C70,114 70,120 63,125 Z" fill="#FF7597" /><path d="M137,125 C130,120 130,114 134,113 C136,112 137,115 137,115 C137,115 138,112 140,113 C144,114 144,120 137,125 Z" fill="#FF7597" />`;
     else if (state.blushStyle === 'blush_star') blushSvg = `<polygon points="63,113 65,118 70,118 66,121 67,126 63,123 59,126 60,121 56,118 61,118" fill="#FFD54F" /><polygon points="137,113 139,118 144,118 140,121 141,126 137,123 133,126 134,121 130,118 135,118" fill="#FFD54F" />`;
     else if (state.blushStyle === 'blush_sparkle') blushSvg = `<ellipse cx="63" cy="120" rx="10" ry="5.5" fill="#FABCC8" /><ellipse cx="137" cy="120" rx="10" ry="5.5" fill="#FABCC8" /><circle cx="63" cy="120" r="2.2" fill="#FFF59D" /><circle cx="137" cy="120" r="2.2" fill="#FFF59D" />`;
+    else if (state.blushStyle === 'blush_flushed') blushSvg = `<circle cx="63" cy="120" r="11" fill="#FF5252" opacity="0.65" /><circle cx="137" cy="120" r="11" fill="#FF5252" opacity="0.65" />`;
+    else if (state.blushStyle === 'blush_stripes') blushSvg = `<path d="M58,116 L54,124 M64,116 L60,124 M70,116 L66,124" stroke="#FF4081" stroke-width="2.2" stroke-linecap="round" /><path d="M130,116 L126,124 M136,116 L132,124 M142,116 L138,124" stroke="#FF4081" stroke-width="2.2" stroke-linecap="round" />`;
+    else if (state.blushStyle === 'blush_dots') blushSvg = `<circle cx="58" cy="120" r="2.8" fill="#FF8A80" /><circle cx="64" cy="118" r="2.8" fill="#FF8A80" /><circle cx="70" cy="120" r="2.8" fill="#FF8A80" /><circle cx="130" cy="120" r="2.8" fill="#FF8A80" /><circle cx="136" cy="118" r="2.8" fill="#FF8A80" /><circle cx="142" cy="120" r="2.8" fill="#FF8A80" />`;
+    else if (state.blushStyle === 'blush_cat') blushSvg = `<line x1="52" y1="117" x2="72" y2="117" stroke="#FF7597" stroke-width="2" stroke-linecap="round" /><line x1="54" y1="122" x2="70" y2="122" stroke="#FF7597" stroke-width="2" stroke-linecap="round" /><line x1="128" y1="117" x2="148" y2="117" stroke="#FF7597" stroke-width="2" stroke-linecap="round" /><line x1="130" y1="122" x2="146" y2="122" stroke="#FF7597" stroke-width="2" stroke-linecap="round" />`;
+    else if (state.blushStyle === 'blush_spiral') blushSvg = `<path d="M63,120 m -6,0 a 6,6 0 1,0 12,0 a 4,4 0 1,0 -8,0 a 2,2 0 1,0 4,0" fill="none" stroke="#FF4081" stroke-width="1.8" stroke-linecap="round" /><path d="M137,120 m -6,0 a 6,6 0 1,0 12,0 a 4,4 0 1,0 -8,0 a 2,2 0 1,0 4,0" fill="none" stroke="#FF4081" stroke-width="1.8" stroke-linecap="round" />`;
+    else if (state.blushStyle === 'blush_flower') blushSvg = `<g fill="#FF80AB" stroke="#F0627D" stroke-width="1"><circle cx="63" cy="117" r="2.5" /><circle cx="66" cy="119" r="2.5" /><circle cx="65" cy="123" r="2.5" /><circle cx="61" cy="123" r="2.5" /><circle cx="60" cy="119" r="2.5" /><circle cx="63" cy="120" r="2" fill="#FFF59D" /><circle cx="137" cy="117" r="2.5" /><circle cx="140" cy="119" r="2.5" /><circle cx="139" cy="123" r="2.5" /><circle cx="135" cy="123" r="2.5" /><circle cx="134" cy="119" r="2.5" /><circle cx="137" cy="120" r="2" fill="#FFF59D" /></g>`;
+    else if (state.blushStyle === 'blush_rainbow') blushSvg = `<path d="M56,122 A8,8 0 0 1 70,122" fill="none" stroke="#FF5252" stroke-width="1.8" /><path d="M57,124 A7,7 0 0 1 69,124" fill="none" stroke="#FFEB3B" stroke-width="1.8" /><path d="M58,126 A6,6 0 0 1 68,126" fill="none" stroke="#42A5F5" stroke-width="1.8" /><path d="M130,122 A8,8 0 0 1 144,122" fill="none" stroke="#FF5252" stroke-width="1.8" /><path d="M131,124 A7,7 0 0 1 143,124" fill="none" stroke="#FFEB3B" stroke-width="1.8" /><path d="M132,126 A6,6 0 0 1 142,126" fill="none" stroke="#42A5F5" stroke-width="1.8" />`;
 
     let glassesSvg = '';
     if (state.glasses === 'glasses_round') glassesSvg = `<circle cx="78" cy="108" r="12" fill="rgba(255,255,255,0.25)" stroke="${ink}" stroke-width="2.4" /><circle cx="122" cy="108" r="12" fill="rgba(255,255,255,0.25)" stroke="${ink}" stroke-width="2.4" /><line x1="90" y1="108" x2="110" y2="108" stroke="${ink}" stroke-width="2.4" />`;
     else if (state.glasses === 'glasses_heart') glassesSvg = `<path d="M78,118 C64,108 66,97 78,103 C90,97 92,108 78,118 Z" fill="rgba(240,98,125,0.75)" stroke="${ink}" stroke-width="2.2" /><path d="M122,118 C108,108 110,97 122,103 C134,97 136,108 122,118 Z" fill="rgba(240,98,125,0.75)" stroke="${ink}" stroke-width="2.2" /><line x1="90" y1="104" x2="110" y2="104" stroke="${ink}" stroke-width="2.2" />`;
     else if (state.glasses === 'glasses_star') glassesSvg = `<polygon points="78,95 81,103 90,104 83,109 85,118 78,113 71,118 73,109 66,104 75,103" fill="rgba(255,213,79,0.85)" stroke="${ink}" stroke-width="2" /><polygon points="122,95 125,103 134,104 127,109 129,118 122,113 115,118 117,109 110,104 119,103" fill="rgba(255,213,79,0.85)" stroke="${ink}" stroke-width="2" /><line x1="88" y1="105" x2="112" y2="105" stroke="${ink}" stroke-width="2.2" />`;
     else if (state.glasses === 'glasses_monocle') glassesSvg = `<circle cx="122" cy="108" r="12.5" fill="rgba(255,255,255,0.25)" stroke="${ink}" stroke-width="2.4" /><path d="M134,112 Q140,126 135,138" fill="none" stroke="${ink}" stroke-width="1.8" />`;
+    else if (state.glasses === 'glasses_retro') glassesSvg = `<rect x="66" y="100" width="24" height="17" rx="3" fill="rgba(255,255,255,0.2)" stroke="${ink}" stroke-width="3" /><rect x="110" y="100" width="24" height="17" rx="3" fill="rgba(255,255,255,0.2)" stroke="${ink}" stroke-width="3" /><line x1="90" y1="108" x2="110" y2="108" stroke="${ink}" stroke-width="3" />`;
+    else if (state.glasses === 'glasses_sunglasses') glassesSvg = `<path d="M66,102 Q78,98 90,102 L88,114 Q78,122 68,114 Z" fill="#212121" stroke="${ink}" stroke-width="2.4" /><path d="M110,102 Q122,98 134,102 L132,114 Q122,122 112,114 Z" fill="#212121" stroke="${ink}" stroke-width="2.4" /><line x1="90" y1="103" x2="110" y2="103" stroke="${ink}" stroke-width="2.6" /><line x1="68" y1="104" x2="76" y2="116" stroke="rgba(255,255,255,0.4)" stroke-width="2" stroke-linecap="round" /><line x1="112" y1="104" x2="120" y2="116" stroke="rgba(255,255,255,0.4)" stroke-width="2" stroke-linecap="round" />`;
+    else if (state.glasses === 'glasses_pixel') glassesSvg = `<rect x="66" y="104" width="24" height="10" fill="#111111" stroke="${ink}" stroke-width="1.8" /><rect x="110" y="104" width="24" height="10" fill="#111111" stroke="${ink}" stroke-width="1.8" /><rect x="90" y="104" width="20" height="4" fill="#111111" /><rect x="68" y="106" width="4" height="3" fill="#FFFFFF" /><rect x="112" y="106" width="4" height="3" fill="#FFFFFF" />`;
+    else if (state.glasses === 'glasses_goggles') glassesSvg = `<line x1="42" y1="108" x2="158" y2="108" stroke="#5D4037" stroke-width="4" /><circle cx="78" cy="108" r="14" fill="#80DEEA" opacity="0.8" stroke="#37474F" stroke-width="3" /><circle cx="122" cy="108" r="14" fill="#80DEEA" opacity="0.8" stroke="#37474F" stroke-width="3" /><circle cx="78" cy="108" r="10" fill="none" stroke="#FFFFFF" opacity="0.6" stroke-width="1.5" /><circle cx="122" cy="108" r="10" fill="none" stroke="#FFFFFF" opacity="0.6" stroke-width="1.5" />`;
+    else if (state.glasses === 'glasses_dizzy') glassesSvg = `<circle cx="78" cy="108" r="13" fill="#FFFFFF" stroke="${ink}" stroke-width="2.4" /><circle cx="78" cy="108" r="9" fill="none" stroke="${ink}" stroke-width="2" /><circle cx="78" cy="108" r="5" fill="none" stroke="${ink}" stroke-width="2" /><circle cx="122" cy="108" r="13" fill="#FFFFFF" stroke="${ink}" stroke-width="2.4" /><circle cx="122" cy="108" r="9" fill="none" stroke="${ink}" stroke-width="2" /><circle cx="122" cy="108" r="5" fill="none" stroke="${ink}" stroke-width="2" /><line x1="91" y1="108" x2="109" y2="108" stroke="${ink}" stroke-width="2.4" />`;
+    else if (state.glasses === 'glasses_half') glassesSvg = `<path d="M67,108 Q78,118 89,108" fill="none" stroke="${ink}" stroke-width="2.6" stroke-linecap="round" /><path d="M111,108 Q122,118 133,108" fill="none" stroke="${ink}" stroke-width="2.6" stroke-linecap="round" /><line x1="89" y1="108" x2="111" y2="108" stroke="${ink}" stroke-width="2.4" />`;
+    else if (state.glasses === 'glasses_cat') glassesSvg = `<path d="M64,98 L72,102 Q78,118 88,104 L90,102" fill="none" stroke="#E91E63" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /><path d="M136,98 L128,102 Q122,118 112,104 L110,102" fill="none" stroke="#E91E63" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /><line x1="90" y1="103" x2="110" y2="103" stroke="#E91E63" stroke-width="2.6" />`;
+    else if (state.glasses === 'glasses_sleep') glassesSvg = `<rect x="62" y="98" width="76" height="20" rx="9" fill="#CE93D8" stroke="${ink}" stroke-width="2.4" /><path d="M72,108 Q78,114 84,108 M116,108 Q122,114 128,108" fill="none" stroke="${ink}" stroke-width="2" stroke-linecap="round" />`;
 
     const face = isBack ? '' : `
       ${markSvg}

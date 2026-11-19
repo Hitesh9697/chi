@@ -42,7 +42,15 @@ const GAME_DATA = {
       { id: 'eye_dot', label: 'Button' },
       { id: 'eye_tear', label: 'Teary' },
       { id: 'eye_calm', label: 'Calm' },
-      { id: 'eye_star', label: 'Starry' }
+      { id: 'eye_star', label: 'Starry' },
+      { id: 'eye_crying', label: 'Crying' },
+      { id: 'eye_dizzy', label: 'Dizzy' },
+      { id: 'eye_heart', label: 'Heart Eyes' },
+      { id: 'eye_angry', label: 'Determined' },
+      { id: 'eye_cross', label: 'Cross (> <)' },
+      { id: 'eye_squint', label: 'Smiling (^ ^)' },
+      { id: 'eye_sparkle_big', label: 'Starlight' },
+      { id: 'eye_glance', label: 'Side Glance' }
     ],
     eyebrows: [
       { id: 'brow_follow', label: 'Match Eyes' },
@@ -58,7 +66,15 @@ const GAME_DATA = {
       { id: 'mouth_cat', label: 'Cat' },
       { id: 'mouth_open', label: 'Smile' },
       { id: 'mouth_wavy', label: 'Wavy' },
-      { id: 'mouth_dot', label: 'Dot' }
+      { id: 'mouth_dot', label: 'Dot' },
+      { id: 'mouth_fang', label: 'Snaggletooth' },
+      { id: 'mouth_surprised', label: 'Gasp' },
+      { id: 'mouth_cry', label: 'Wobbly Cry' },
+      { id: 'mouth_smirk', label: 'Smirk' },
+      { id: 'mouth_tongue', label: 'Tongue Out' },
+      { id: 'mouth_open_smile', label: 'Big Smile' },
+      { id: 'mouth_triangle', label: 'Triangle' },
+      { id: 'mouth_flat', label: 'Deadpan' }
     ],
     markings: [
       { id: 'mark_none', label: 'None' },
@@ -69,20 +85,43 @@ const GAME_DATA = {
       { id: 'mark_tiger', label: 'Tiger Stripes' },
       { id: 'mark_freckles', label: 'Freckles' },
       { id: 'mark_muzzle', label: 'Muzzle' },
-      { id: 'mark_maro', label: 'Maro Brows' }
+      { id: 'mark_maro', label: 'Maro Brows' },
+      { id: 'mark_heart', label: 'Cheek Heart' },
+      { id: 'mark_cross', label: 'Cheek Bandage' },
+      { id: 'mark_whiskers', label: 'Cat Whiskers' },
+      { id: 'mark_lightning', label: 'Lightning' },
+      { id: 'mark_panda', label: 'Panda Rings' },
+      { id: 'mark_spot', label: 'Puppy Eye Spot' },
+      { id: 'mark_clover', label: 'Four-Leaf Clover' },
+      { id: 'mark_teardrop', label: 'Teardrop' }
     ],
     glasses: [
       { id: 'glasses_none', label: 'None' },
       { id: 'glasses_round', label: 'Round Glasses' },
       { id: 'glasses_heart', label: 'Heart Shades' },
       { id: 'glasses_star', label: 'Star Shades' },
-      { id: 'glasses_monocle', label: 'Monocle' }
+      { id: 'glasses_monocle', label: 'Monocle' },
+      { id: 'glasses_retro', label: 'Square Frames' },
+      { id: 'glasses_sunglasses', label: 'Cool Shades' },
+      { id: 'glasses_pixel', label: 'Pixel Shades' },
+      { id: 'glasses_goggles', label: 'Aviator Goggles' },
+      { id: 'glasses_dizzy', label: 'Swirl Glasses' },
+      { id: 'glasses_half', label: 'Half-Moon' },
+      { id: 'glasses_cat', label: 'Cat-Eye Shades' },
+      { id: 'glasses_sleep', label: 'Sleep Mask' }
     ],
     blushStyles: [
       { id: 'blush_classic', label: 'Classic' },
       { id: 'blush_heart', label: 'Hearts' },
       { id: 'blush_star', label: 'Stars' },
       { id: 'blush_sparkle', label: 'Sparkle' },
+      { id: 'blush_flushed', label: 'Flushed' },
+      { id: 'blush_stripes', label: 'Manga Lines' },
+      { id: 'blush_dots', label: 'Dot Clusters' },
+      { id: 'blush_cat', label: 'Whiskers Blush' },
+      { id: 'blush_spiral', label: 'Swirl Blush' },
+      { id: 'blush_flower', label: 'Sakura Flowers' },
+      { id: 'blush_rainbow', label: 'Rainbow Glow' },
       { id: 'blush_none', label: 'None' }
     ]
   },
@@ -104,6 +143,14 @@ const GAME_DATA = {
       { id: 'ear_antenna', label: 'Antennae' },
       { id: 'ear_fin', label: 'Fin Ears' },
       { id: 'ear_leaf', label: 'Leaf Ears' },
+      { id: 'ear_devil', label: 'Devil Wings' },
+      { id: 'ear_curled', label: 'Curled Cat' },
+      { id: 'ear_dragon', label: 'Dragon Horns' },
+      { id: 'ear_bunny_droop', label: 'Floppy Bunny' },
+      { id: 'ear_mouse', label: 'Round Mouse' },
+      { id: 'ear_deer', label: 'Deer Antlers' },
+      { id: 'ear_pointed', label: 'Elf / Pixie' },
+      { id: 'ear_fluffy_top', label: 'Top Tuft Ears' },
       { id: 'ear_none', label: 'No Ears' }
     ],
     accessories: [
@@ -135,7 +182,15 @@ const GAME_DATA = {
       { id: 'hair_sideswept', label: 'Side-Swept' },
       { id: 'hair_pigtails', label: 'Pigtails' },
       { id: 'hair_mohawk', label: 'Mohawk' },
-      { id: 'hair_swoop', label: 'Front Swoop' }
+      { id: 'hair_swoop', label: 'Front Swoop' },
+      { id: 'hair_bob', label: 'Curved Bob' },
+      { id: 'hair_messy', label: 'Messy Bedhead' },
+      { id: 'hair_braid', label: 'Side Braid' },
+      { id: 'hair_ponytail', label: 'High Ponytail' },
+      { id: 'hair_wavy_fringe', label: 'Wavy Fringe' },
+      { id: 'hair_cowlick', label: 'Cowlick' },
+      { id: 'hair_dreadlocks', label: 'Side Locs' },
+      { id: 'hair_curtains', label: 'Center Curtains' }
     ]
   },
 
