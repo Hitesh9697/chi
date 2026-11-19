@@ -579,65 +579,101 @@ class ChiikawaRenderer {
         break;
       case 'ear_devil':
         addPair((g, s) => {
-          const m = this._addOutlinedMesh(g, new THREE.ConeGeometry(0.14, 0.32, 4), mat, 0.03, 1);
-          m.scale.set(0.35, 1, 1.1);
-          m.position.set(s * 0.52, 0.92, 0.0);
-          m.rotation.z = -s * 0.42;
+          const base = this._addOutlinedMesh(g, new THREE.CylinderGeometry(0.055, 0.09, 0.24, 16), mat, 0.026);
+          base.position.set(s * 0.36, 0.90, 0.04);
+          base.rotation.set(-0.2, 0, s * 0.35);
+          const tip = this._addOutlinedMesh(g, new THREE.ConeGeometry(0.055, 0.18, 16), mat, 0.026);
+          tip.position.set(s * 0.30, 1.05, 0.08);
+          tip.rotation.set(-0.35, 0, s * 0.75);
         });
         break;
       case 'ear_curled':
         addPair((g, s) => {
-          const m = this._addOutlinedMesh(g, new THREE.ConeGeometry(0.16, 0.32, 16), mat, 0.03);
-          m.scale.set(1, 1, 0.65);
-          m.position.set(s * 0.48, 0.88, 0.0);
-          m.rotation.set(0.2, 0, -s * 0.55);
+          const torus = this._addOutlinedMesh(g, new THREE.TorusGeometry(0.18, 0.065, 14, 28, Math.PI * 1.3), mat, 0.026);
+          torus.position.set(s * 0.62, 0.66, 0.06);
+          torus.rotation.set(0.15, s * 0.4, -s * 0.7);
+          const tip = this._addOutlinedMesh(g, new THREE.ConeGeometry(0.065, 0.14, 14), mat, 0.024);
+          tip.position.set(s * 0.52, 0.52, 0.12);
+          tip.rotation.set(0.2, s * 0.3, s * 1.8);
         });
         break;
       case 'ear_dragon':
         addPair((g, s) => {
-          const m = this._addOutlinedMesh(g, new THREE.ConeGeometry(0.12, 0.40, 14), mat, 0.03, 1);
-          m.position.set(s * 0.44, 0.95, -0.05);
-          m.rotation.set(-0.5, 0, -s * 0.35);
+          [
+            { dy: 0.16, rot: 0.25, len: 0.34, rad: 0.09 },
+            { dy: 0.00, rot: -0.15, len: 0.38, rad: 0.10 },
+            { dy: -0.16, rot: -0.55, len: 0.32, rad: 0.085 }
+          ].forEach(cfg => {
+            const fin = this._addOutlinedMesh(g, new THREE.ConeGeometry(cfg.rad, cfg.len, 5), mat, 0.024);
+            fin.scale.set(0.3, 1, 1.2);
+            fin.position.set(s * 0.72, 0.50 + cfg.dy, 0.0);
+            fin.rotation.set(0, 0, -s * (Math.PI / 2 + cfg.rot));
+          });
         });
         break;
       case 'ear_bunny_droop':
         addPair((g, s) => {
-          const m = this._addOutlinedMesh(g, new THREE.CapsuleGeometry(0.11, 0.45, 10, 20), mat, 0.03);
-          m.scale.set(1, 1, 0.65);
-          m.position.set(s * 0.78, 0.35, 0.02);
-          m.rotation.z = s * 0.35;
+          const m = this._addOutlinedMesh(g, new THREE.CapsuleGeometry(0.11, 0.50, 10, 20), mat, 0.028);
+          m.scale.set(0.8, 1, 0.7);
+          m.position.set(s * 0.72, 0.28, 0.02);
+          m.rotation.z = s * 0.14;
+          const inner = new THREE.Mesh(new THREE.CapsuleGeometry(0.065, 0.38, 8, 16), pinkMat);
+          inner.scale.set(0.7, 1, 0.5);
+          inner.position.set(s * 0.72, 0.28, 0.05);
+          inner.rotation.z = s * 0.14;
+          g.add(inner);
         });
         break;
       case 'ear_mouse':
         addPair((g, s) => {
-          const m = this._addOutlinedMesh(g, new THREE.CylinderGeometry(0.24, 0.24, 0.05, 24), mat, 0.03, 1);
+          const m = this._addOutlinedMesh(g, new THREE.CylinderGeometry(0.25, 0.25, 0.05, 32), mat, 0.03, 1);
           m.position.set(s * 0.58, 0.86, 0.0);
-          m.rotation.set(Math.PI / 2, 0, -s * 0.25);
+          m.rotation.set(Math.PI / 2, 0, -s * 0.22);
+          // Pink inner circle
+          const inner = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.16, 0.054, 24), pinkMat);
+          inner.position.set(s * 0.58, 0.86, 0.012);
+          inner.rotation.set(Math.PI / 2, 0, -s * 0.22);
+          g.add(inner);
         });
         break;
       case 'ear_deer':
         addPair((g, s) => {
-          const m = this._addOutlinedMesh(g, new THREE.CylinderGeometry(0.03, 0.04, 0.38, 8), mat, 0.025);
-          m.position.set(s * 0.45, 0.98, 0.0);
-          m.rotation.z = -s * 0.32;
-          const branch = this._addOutlinedMesh(g, new THREE.CylinderGeometry(0.022, 0.028, 0.18, 8), mat, 0.022);
-          branch.position.set(s * 0.50, 1.05, 0.04);
-          branch.rotation.z = s * 0.45;
+          const main = this._addOutlinedMesh(g, new THREE.CylinderGeometry(0.032, 0.046, 0.40, 10), mat, 0.022);
+          main.position.set(s * 0.44, 0.96, 0.0);
+          main.rotation.z = -s * 0.35;
+          const p1 = this._addOutlinedMesh(g, new THREE.ConeGeometry(0.026, 0.18, 10), mat, 0.02);
+          p1.position.set(s * 0.42, 0.98, 0.08);
+          p1.rotation.set(-0.7, 0, -s * 0.4);
+          const p2 = this._addOutlinedMesh(g, new THREE.ConeGeometry(0.024, 0.20, 10), mat, 0.02);
+          p2.position.set(s * 0.52, 1.10, 0.0);
+          p2.rotation.z = -s * 0.75;
+          const tip = this._addOutlinedMesh(g, new THREE.ConeGeometry(0.032, 0.18, 10), mat, 0.02);
+          tip.position.set(s * 0.46, 1.20, 0.0);
+          tip.rotation.z = -s * 0.15;
         });
         break;
       case 'ear_pointed':
         addPair((g, s) => {
-          const m = this._addOutlinedMesh(g, new THREE.ConeGeometry(0.13, 0.32, 14), mat, 0.028);
-          m.scale.set(0.6, 1, 0.8);
-          m.position.set(s * 0.82, 0.28, 0.0);
-          m.rotation.z = -s * 1.45;
+          const m = this._addOutlinedMesh(g, new THREE.ConeGeometry(0.12, 0.44, 16), mat, 0.025);
+          m.scale.set(0.3, 1, 0.85);
+          m.position.set(s * 0.82, 0.44, 0.0);
+          m.rotation.set(0.1, 0, -s * (Math.PI / 2 + 0.18));
+          const inner = new THREE.Mesh(new THREE.ConeGeometry(0.075, 0.32, 12), pinkMat);
+          inner.scale.set(0.25, 1, 0.7);
+          inner.position.set(s * 0.80, 0.44, 0.02);
+          inner.rotation.set(0.1, 0, -s * (Math.PI / 2 + 0.18));
+          g.add(inner);
         });
         break;
       case 'ear_fluffy_top':
         addPair((g, s) => {
-          [-0.06, 0.06].forEach((dx, idx) => {
-            const m = this._addOutlinedMesh(g, new THREE.SphereGeometry(idx === 0 ? 0.14 : 0.11, 16, 14), mat, 0.026);
-            m.position.set(s * (0.46 + dx), 0.88, 0.0);
+          [
+            { dx: -0.08, dy: -0.02, r: 0.11 },
+            { dx: 0.00, dy: 0.06, r: 0.14 },
+            { dx: 0.08, dy: -0.01, r: 0.12 }
+          ].forEach(cfg => {
+            const m = this._addOutlinedMesh(g, new THREE.SphereGeometry(cfg.r, 16, 14), mat, 0.025);
+            m.position.set(s * (0.46 + cfg.dx), 0.88 + cfg.dy, 0.0);
           });
         });
         break;
@@ -653,7 +689,8 @@ class ChiikawaRenderer {
   }
 
   _build3DHair(group, hairType, earCol) {
-    if (!hairType || hairType === 'hair_none') return;
+    // Hair disabled per user request
+    return;
     const mat = this._makeToonMat(earCol);
     if (hairType === 'hair_tuft') {
       const m1 = this._addOutlinedMesh(group, new THREE.ConeGeometry(0.10, 0.26, 14), mat, 0.03, 1);
@@ -1355,97 +1392,10 @@ class ChiikawaRenderer {
     const eyeDist = 86 + spacingOff;
     const lx = fx - eyeDist;
     const rx = fx + eyeDist;
-
-    if (state.marking === 'mark_eyepatch') {
-      ctx.fillStyle = pointCol;
-      ctx.beginPath(); ctx.ellipse(rx, fy, 42, 38, 0, 0, Math.PI * 2); ctx.fill();
-    } else if (state.marking === 'mark_raccoon') {
-      ctx.fillStyle = pointCol;
-      ctx.beginPath(); ctx.ellipse(lx, fy, 38, 34, 0, 0, Math.PI * 2); ctx.fill();
-      ctx.beginPath(); ctx.ellipse(rx, fy, 38, 34, 0, 0, Math.PI * 2); ctx.fill();
-    } else if (state.marking === 'mark_star') {
-      ctx.fillStyle = pointCol;
-      this._drawCanvasStar(ctx, fx, fy - 80, 5, 26, 11);
-    } else if (state.marking === 'mark_tiger') {
-      ctx.strokeStyle = pointCol;
-      ctx.lineWidth = 9;
-      ctx.lineCap = 'round';
-      ctx.beginPath(); ctx.moveTo(fx - 18, fy - 86); ctx.lineTo(fx - 18, fy - 58); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(fx, fy - 90); ctx.lineTo(fx, fy - 56); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(fx + 18, fy - 86); ctx.lineTo(fx + 18, fy - 58); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(lx - 78, fy - 8); ctx.lineTo(lx - 46, fy - 8); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(lx - 74, fy + 12); ctx.lineTo(lx - 46, fy + 12); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(rx + 46, fy - 8); ctx.lineTo(rx + 78, fy - 8); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(rx + 46, fy + 12); ctx.lineTo(rx + 74, fy + 12); ctx.stroke();
-    } else if (state.marking === 'mark_maro') {
-      ctx.fillStyle = pointCol;
-      ctx.beginPath(); ctx.ellipse(lx, fy - 42, 16, 10, 0, 0, Math.PI * 2); ctx.fill();
-      ctx.beginPath(); ctx.ellipse(rx, fy - 42, 16, 10, 0, 0, Math.PI * 2); ctx.fill();
-    } else if (state.marking === 'mark_muzzle') {
-      ctx.fillStyle = pointCol;
-      ctx.globalAlpha = 0.3;
-      ctx.beginPath(); ctx.ellipse(fx, fy + 26, 46, 28, 0, 0, Math.PI * 2); ctx.fill();
-      ctx.globalAlpha = 1;
-    } else if (state.marking === 'mark_heart') {
-      ctx.fillStyle = pointCol;
-      this._drawCanvasHeart(ctx, lx - 44, fy + 38, 20);
-    } else if (state.marking === 'mark_cross') {
-      ctx.fillStyle = '#FFE082';
-      ctx.strokeStyle = '#D78B2C';
-      ctx.lineWidth = 3;
-      ctx.save();
-      ctx.translate(rx + 42, fy + 24);
-      ctx.rotate(0.35);
-      ctx.fillRect(-22, -7, 44, 14); ctx.strokeRect(-22, -7, 44, 14);
-      ctx.fillRect(-7, -22, 14, 44); ctx.strokeRect(-7, -22, 14, 44);
-      ctx.restore();
-    } else if (state.marking === 'mark_whiskers') {
-      ctx.strokeStyle = pointCol;
-      ctx.lineWidth = 6;
-      ctx.lineCap = 'round';
-      [-1, 1].forEach(s => {
-        const bx = s === -1 ? lx - 46 : rx + 46;
-        ctx.beginPath(); ctx.moveTo(bx, fy + 10); ctx.lineTo(bx + s * 34, fy + 2); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(bx, fy + 22); ctx.lineTo(bx + s * 36, fy + 22); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(bx, fy + 34); ctx.lineTo(bx + s * 34, fy + 42); ctx.stroke();
-      });
-    } else if (state.marking === 'mark_lightning') {
-      ctx.fillStyle = pointCol;
-      ctx.beginPath();
-      ctx.moveTo(fx, fy - 110);
-      ctx.lineTo(fx - 14, fy - 72);
-      ctx.lineTo(fx - 3, fy - 70);
-      ctx.lineTo(fx - 16, fy - 36);
-      ctx.lineTo(fx + 10, fy - 66);
-      ctx.lineTo(fx - 1, fy - 68);
-      ctx.closePath();
-      ctx.fill();
-    } else if (state.marking === 'mark_panda') {
-      ctx.fillStyle = pointCol;
-      ctx.beginPath(); ctx.ellipse(lx, fy, 44, 40, -0.2, 0, Math.PI * 2); ctx.fill();
-      ctx.beginPath(); ctx.ellipse(rx, fy, 44, 40, 0.2, 0, Math.PI * 2); ctx.fill();
-    } else if (state.marking === 'mark_spot') {
-      ctx.fillStyle = pointCol;
-      ctx.beginPath(); ctx.ellipse(lx, fy - 4, 48, 44, -0.15, 0, Math.PI * 2); ctx.fill();
-    } else if (state.marking === 'mark_clover') {
-      ctx.fillStyle = '#66BB6A';
-      for (let i = 0; i < 4; i++) {
-        const a = (i / 4) * Math.PI * 2;
-        ctx.beginPath(); ctx.arc(fx + Math.cos(a) * 11, fy - 80 + Math.sin(a) * 11, 8, 0, Math.PI * 2); ctx.fill();
-      }
-      ctx.strokeStyle = '#43A047'; ctx.lineWidth = 4;
-      ctx.beginPath(); ctx.moveTo(fx, fy - 80); ctx.quadraticCurveTo(fx + 6, fy - 64, fx + 2, fy - 56); ctx.stroke();
-    } else if (state.marking === 'mark_teardrop') {
-      ctx.fillStyle = '#29B6F6';
-      ctx.beginPath();
-      ctx.moveTo(rx, fy + 26);
-      ctx.bezierCurveTo(rx - 9, fy + 38, rx - 9, fy + 48, rx, fy + 48);
-      ctx.bezierCurveTo(rx + 9, fy + 48, rx + 9, fy + 38, rx, fy + 26);
-      ctx.fill();
-    }
-
     const cheekDist = 156 + spacingOff * 0.7;
     const cy = fy + 44;
+
+    // 1. Blush is drawn first so markings and eyes sit cleanly on top
     const blushStyle = state.blushStyle || 'blush_classic';
     if (blushStyle !== 'blush_none') {
       [fx - cheekDist, fx + cheekDist].forEach(cx => {
@@ -1488,10 +1438,15 @@ class ChiikawaRenderer {
           });
         } else if (blushStyle === 'blush_spiral') {
           ctx.strokeStyle = '#FF4081';
-          ctx.lineWidth = 5;
+          ctx.lineWidth = 4.5;
+          ctx.lineCap = 'round';
           ctx.beginPath();
-          for (let i = 0; i < 3; i++) {
-            ctx.arc(cx, cy, 6 + i * 6.5, 0, Math.PI * 1.85);
+          for (let theta = 0; theta < Math.PI * 5; theta += 0.1) {
+            const r = 2.5 + theta * 3.2;
+            const px = cx + r * Math.cos(theta);
+            const py = cy + r * Math.sin(theta);
+            if (theta === 0) ctx.moveTo(px, py);
+            else ctx.lineTo(px, py);
           }
           ctx.stroke();
         } else if (blushStyle === 'blush_flower') {
@@ -1503,11 +1458,14 @@ class ChiikawaRenderer {
           ctx.fillStyle = '#FFF59D';
           ctx.beginPath(); ctx.arc(cx, cy, 5, 0, Math.PI * 2); ctx.fill();
         } else if (blushStyle === 'blush_rainbow') {
-          const rCols = ['#FF8A80', '#FFFF8D', '#80D8FF'];
+          const rCols = ['#FF5252', '#FFD54F', '#40C4FF'];
           rCols.forEach((col, i) => {
             ctx.strokeStyle = col;
-            ctx.lineWidth = 6;
-            ctx.beginPath(); ctx.moveTo(cx - 24, cy - 8 + i * 8); ctx.lineTo(cx + 24, cy - 8 + i * 8); ctx.stroke();
+            ctx.lineWidth = 5;
+            ctx.lineCap = 'round';
+            ctx.beginPath();
+            ctx.arc(cx, cy + 12, 28 - i * 7, Math.PI * 1.15, Math.PI * 1.85, false);
+            ctx.stroke();
           });
         } else {
           ctx.fillStyle = '#FABCC8';
@@ -1528,7 +1486,95 @@ class ChiikawaRenderer {
       });
     }
 
-    if (state.marking === 'mark_freckles') {
+    // 2. Markings
+    if (state.marking === 'mark_eyepatch') {
+      ctx.fillStyle = pointCol;
+      ctx.beginPath(); ctx.ellipse(rx, fy, 42, 38, 0, 0, Math.PI * 2); ctx.fill();
+    } else if (state.marking === 'mark_raccoon') {
+      ctx.fillStyle = pointCol;
+      ctx.beginPath(); ctx.ellipse(lx, fy, 38, 34, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.ellipse(rx, fy, 38, 34, 0, 0, Math.PI * 2); ctx.fill();
+    } else if (state.marking === 'mark_star') {
+      ctx.fillStyle = pointCol;
+      this._drawCanvasStar(ctx, fx, fy - 80, 5, 26, 11);
+    } else if (state.marking === 'mark_tiger') {
+      ctx.strokeStyle = pointCol;
+      ctx.lineWidth = 8;
+      ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.moveTo(fx - 18, fy - 86); ctx.lineTo(fx - 18, fy - 58); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(fx, fy - 90); ctx.lineTo(fx, fy - 56); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(fx + 18, fy - 86); ctx.lineTo(fx + 18, fy - 58); ctx.stroke();
+      [-1, 1].forEach(s => {
+        const bx = s === -1 ? lx - 38 : rx + 38;
+        ctx.beginPath(); ctx.moveTo(bx, fy + 6); ctx.lineTo(bx + s * 30, fy + 6); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(bx + s * 4, fy + 24); ctx.lineTo(bx + s * 28, fy + 24); ctx.stroke();
+      });
+    } else if (state.marking === 'mark_maro') {
+      ctx.fillStyle = pointCol;
+      ctx.beginPath(); ctx.ellipse(lx, fy - 42, 16, 10, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.ellipse(rx, fy - 42, 16, 10, 0, 0, Math.PI * 2); ctx.fill();
+    } else if (state.marking === 'mark_muzzle') {
+      ctx.fillStyle = pointCol;
+      ctx.globalAlpha = 0.3;
+      ctx.beginPath(); ctx.ellipse(fx, fy + 26, 46, 28, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.globalAlpha = 1;
+    } else if (state.marking === 'mark_heart') {
+      ctx.fillStyle = pointCol;
+      this._drawCanvasHeart(ctx, rx + 44, cy - 8, 22);
+    } else if (state.marking === 'mark_cross') {
+      ctx.fillStyle = '#FFE082';
+      ctx.strokeStyle = '#D78B2C';
+      ctx.lineWidth = 3;
+      ctx.save();
+      ctx.translate(rx + 42, fy + 24);
+      ctx.rotate(0.35);
+      ctx.fillRect(-22, -7, 44, 14); ctx.strokeRect(-22, -7, 44, 14);
+      ctx.fillRect(-7, -22, 14, 44); ctx.strokeRect(-7, -22, 14, 44);
+      ctx.restore();
+    } else if (state.marking === 'mark_whiskers') {
+      ctx.strokeStyle = pointCol;
+      ctx.lineWidth = 6;
+      ctx.lineCap = 'round';
+      [-1, 1].forEach(s => {
+        const bx = s === -1 ? lx - 46 : rx + 46;
+        ctx.beginPath(); ctx.moveTo(bx, fy + 10); ctx.lineTo(bx + s * 34, fy + 2); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(bx, fy + 22); ctx.lineTo(bx + s * 36, fy + 22); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(bx, fy + 34); ctx.lineTo(bx + s * 34, fy + 42); ctx.stroke();
+      });
+    } else if (state.marking === 'mark_lightning') {
+      ctx.fillStyle = pointCol;
+      ctx.beginPath();
+      ctx.moveTo(fx, fy - 110);
+      ctx.lineTo(fx - 14, fy - 72);
+      ctx.lineTo(fx - 3, fy - 70);
+      ctx.lineTo(fx - 16, fy - 36);
+      ctx.lineTo(fx + 10, fy - 66);
+      ctx.lineTo(fx - 1, fy - 68);
+      ctx.closePath();
+      ctx.fill();
+    } else if (state.marking === 'mark_panda') {
+      ctx.fillStyle = pointCol;
+      ctx.beginPath(); ctx.ellipse(lx, fy, 44, 40, -0.2, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.ellipse(rx, fy, 44, 40, 0.2, 0, Math.PI * 2); ctx.fill();
+    } else if (state.marking === 'mark_spot') {
+      ctx.fillStyle = pointCol;
+      ctx.beginPath(); ctx.ellipse(lx, fy, 48, 44, -0.15, 0, Math.PI * 2); ctx.fill();
+    } else if (state.marking === 'mark_clover') {
+      ctx.fillStyle = '#66BB6A';
+      for (let i = 0; i < 4; i++) {
+        const a = (i / 4) * Math.PI * 2;
+        ctx.beginPath(); ctx.arc(fx + Math.cos(a) * 11, fy - 80 + Math.sin(a) * 11, 8, 0, Math.PI * 2); ctx.fill();
+      }
+      ctx.strokeStyle = '#43A047'; ctx.lineWidth = 4;
+      ctx.beginPath(); ctx.moveTo(fx, fy - 80); ctx.quadraticCurveTo(fx + 6, fy - 64, fx + 2, fy - 56); ctx.stroke();
+    } else if (state.marking === 'mark_teardrop') {
+      ctx.fillStyle = pointCol;
+      ctx.beginPath();
+      ctx.moveTo(rx + 10, fy + 26);
+      ctx.bezierCurveTo(rx + 2, fy + 38, rx + 2, fy + 46, rx + 10, fy + 46);
+      ctx.bezierCurveTo(rx + 18, fy + 46, rx + 18, fy + 38, rx + 10, fy + 26);
+      ctx.fill();
+    } else if (state.marking === 'mark_freckles') {
       ctx.fillStyle = pointCol;
       [fx - cheekDist, fx + cheekDist].forEach(cx => {
         [-12, 0, 12].forEach((dx, idx) => {
@@ -1539,6 +1585,7 @@ class ChiikawaRenderer {
       });
     }
 
+    // 3. Eyes, Brows, Mouth & Glasses
     this._drawCanvasEye(ctx, state.eyeStyle, lx, fy, false);
     this._drawCanvasEye(ctx, state.eyeStyle, rx, fy, true);
     this._drawCanvasBrow(ctx, state.eyebrowStyle, state.eyeStyle, lx, fy - 58, -1, browTilt);
@@ -1550,6 +1597,7 @@ class ChiikawaRenderer {
 
   _drawCanvasGlasses(ctx, glasses, lx, rx, fy) {
     if (!glasses || glasses === 'glasses_none') return;
+    const fx = (lx + rx) / 2;
     ctx.save();
     ctx.strokeStyle = '#3A2E2B';
     ctx.lineWidth = 9;
@@ -1643,27 +1691,36 @@ class ChiikawaRenderer {
       });
       ctx.beginPath(); ctx.moveTo(lx + 42, fy + 8); ctx.lineTo(rx - 42, fy + 8); ctx.stroke();
     } else if (glasses === 'glasses_cat') {
-      ctx.fillStyle = '#E91E63';
+      ctx.fillStyle = 'rgba(32, 26, 26, 0.88)';
+      ctx.strokeStyle = '#E91E63';
+      ctx.lineWidth = 7;
       [lx, rx].forEach((x, idx) => {
         const s = idx === 0 ? -1 : 1;
         ctx.beginPath();
-        ctx.moveTo(x - 44 * s, fy + 18);
-        ctx.lineTo(x + 56 * s, fy - 26);
-        ctx.lineTo(x + 36 * s, fy + 26);
+        ctx.moveTo(x - 34 * s, fy + 18);
+        ctx.quadraticCurveTo(x + 48 * s, fy + 20, x + 56 * s, fy - 24);
+        ctx.quadraticCurveTo(x + 12 * s, fy - 16, x - 34 * s, fy - 8);
         ctx.closePath();
         ctx.fill(); ctx.stroke();
       });
-      ctx.beginPath(); ctx.moveTo(lx + 40, fy); ctx.lineTo(rx - 40, fy); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(lx + 28, fy - 4); ctx.lineTo(rx - 28, fy - 4); ctx.stroke();
     } else if (glasses === 'glasses_sleep') {
-      ctx.fillStyle = '#C5CAE9';
+      ctx.fillStyle = '#CE93D8';
+      ctx.strokeStyle = '#4A3832';
+      ctx.lineWidth = 7;
       ctx.beginPath();
-      if (ctx.roundRect) ctx.roundRect(fx - 140, fy - 36, 280, 72, 36);
-      else ctx.rect(fx - 140, fy - 36, 280, 72);
+      ctx.ellipse(lx, fy, 48, 38, 0, 0, Math.PI * 2);
+      ctx.ellipse(rx, fy, 48, 38, 0, 0, Math.PI * 2);
       ctx.fill(); ctx.stroke();
-      ctx.strokeStyle = '#3F51B5';
+      ctx.fillRect(lx, fy - 34, rx - lx, 68);
+      ctx.beginPath(); ctx.moveTo(lx, fy - 34); ctx.lineTo(rx, fy - 34); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(lx, fy + 34); ctx.lineTo(rx, fy + 34); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(lx - 46, fy); ctx.lineTo(lx - 74, fy); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(rx + 46, fy); ctx.lineTo(rx + 74, fy); ctx.stroke();
+      ctx.strokeStyle = '#5E35B1';
       ctx.lineWidth = 6;
       [lx, rx].forEach(x => {
-        ctx.beginPath(); ctx.arc(x, fy + 4, 18, Math.PI * 1.15, Math.PI * 1.85); ctx.stroke();
+        ctx.beginPath(); ctx.arc(x, fy - 2, 20, Math.PI * 0.15, Math.PI * 0.85); ctx.stroke();
       });
     }
     ctx.restore();
@@ -1701,10 +1758,16 @@ class ChiikawaRenderer {
       return;
     }
     if (style === 'eye_dizzy') {
-      ctx.lineWidth = 7;
+      ctx.strokeStyle = eyeInk;
+      ctx.lineWidth = 5.5;
+      ctx.lineCap = 'round';
       ctx.beginPath();
-      for (let i = 0; i < 4; i++) {
-        ctx.arc(x, y, 7 + i * 6.5, 0, Math.PI * 1.8);
+      for (let theta = 0; theta < Math.PI * 6.5; theta += 0.08) {
+        const r = 2.5 + theta * 3.6;
+        const px = x + r * Math.cos(theta);
+        const py = y + r * Math.sin(theta);
+        if (theta === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
       }
       ctx.stroke();
       return;
@@ -1721,23 +1784,35 @@ class ChiikawaRenderer {
       return;
     }
     if (style === 'eye_angry') {
-      ctx.lineWidth = 8.5;
-      const tilt = isRight ? 0.35 : -0.35;
       ctx.save();
-      ctx.translate(x, y);
-      ctx.rotate(tilt);
-      ctx.beginPath(); ctx.moveTo(-22, -8); ctx.lineTo(22, 6); ctx.stroke();
-      ctx.beginPath(); ctx.arc(0, 6, 18, 0, Math.PI); ctx.fill();
+      ctx.beginPath();
+      if (!isRight) {
+        ctx.moveTo(x - 26, y - 10);
+        ctx.lineTo(x + 24, y + 6);
+        ctx.arc(x, y + 8, 20, 0.1, Math.PI - 0.1, false);
+      } else {
+        ctx.moveTo(x - 24, y + 6);
+        ctx.lineTo(x + 26, y - 10);
+        ctx.arc(x, y + 8, 20, 0.1, Math.PI - 0.1, false);
+      }
+      ctx.closePath();
+      ctx.fillStyle = eyeInk;
+      ctx.fill();
+      ctx.strokeStyle = eyeInk;
+      ctx.lineWidth = 7;
+      ctx.stroke();
       ctx.fillStyle = '#FFFFFF';
-      ctx.beginPath(); ctx.arc(-4, 10, 4.5, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(x - 4, y + 8, 4.5, 0, Math.PI * 2); ctx.fill();
       ctx.restore();
       return;
     }
     if (style === 'eye_cross') {
+      ctx.strokeStyle = eyeInk;
       ctx.lineWidth = 8;
-      const s = isRight ? 1 : -1;
+      ctx.lineCap = 'round';
       ctx.beginPath();
-      ctx.moveTo(x - 18 * s, y - 16); ctx.lineTo(x + 14 * s, y); ctx.lineTo(x - 18 * s, y + 16);
+      ctx.moveTo(x - 16, y - 16); ctx.lineTo(x + 16, y + 16);
+      ctx.moveTo(x + 16, y - 16); ctx.lineTo(x - 16, y + 16);
       ctx.stroke();
       return;
     }
@@ -2133,58 +2208,19 @@ class ChiikawaRenderer {
       ear_antenna: `<path d="M76,60 Q72,38 66,32" fill="none" stroke="${ink}" stroke-width="3" stroke-linecap="round" /><circle cx="65" cy="31" r="6" fill="${earCol}" stroke="${ink}" stroke-width="2.8" /><path d="M124,60 Q128,38 134,32" fill="none" stroke="${ink}" stroke-width="3" stroke-linecap="round" /><circle cx="135" cy="31" r="6" fill="${earCol}" stroke="${ink}" stroke-width="2.8" />`,
       ear_fin: `<polygon points="44,80 26,96 46,104" fill="${earCol}" stroke="${ink}" stroke-width="3.2" stroke-linejoin="round" /><polygon points="156,80 174,96 154,104" fill="${earCol}" stroke="${ink}" stroke-width="3.2" stroke-linejoin="round" />`,
       ear_leaf: `<ellipse cx="62" cy="56" rx="13" ry="7.5" transform="rotate(-30 62 56)" fill="#81C784" stroke="${ink}" stroke-width="3" /><ellipse cx="138" cy="56" rx="13" ry="7.5" transform="rotate(30 138 56)" fill="#81C784" stroke="${ink}" stroke-width="3" />`,
-      ear_devil: `<polygon points="56,70 48,42 74,60" fill="${earCol}" stroke="${ink}" stroke-width="3.2" stroke-linejoin="round" /><polygon points="144,70 152,42 126,60" fill="${earCol}" stroke="${ink}" stroke-width="3.2" stroke-linejoin="round" />`,
-      ear_curled: `<path d="M54,68 C40,50 32,70 46,78 C52,82 58,74 54,68" fill="${earCol}" stroke="${ink}" stroke-width="3.2" stroke-linejoin="round" /><path d="M146,68 C160,50 168,70 154,78 C148,82 142,74 146,68" fill="${earCol}" stroke="${ink}" stroke-width="3.2" stroke-linejoin="round" />`,
-      ear_dragon: `<path d="M52,72 L32,56 L44,66 L30,76 L48,78 Z" fill="${earCol}" stroke="${ink}" stroke-width="3" stroke-linejoin="round" /><path d="M148,72 L168,56 L156,66 L170,76 L152,78 Z" fill="${earCol}" stroke="${ink}" stroke-width="3" stroke-linejoin="round" />`,
-      ear_bunny_droop: `<ellipse cx="40" cy="105" rx="9" ry="32" transform="rotate(12 40 105)" fill="${earCol}" stroke="${ink}" stroke-width="3.2" /><ellipse cx="160" cy="105" rx="9" ry="32" transform="rotate(-12 160 105)" fill="${earCol}" stroke="${ink}" stroke-width="3.2" />`,
-      ear_mouse: `<circle cx="48" cy="54" r="18" fill="${earCol}" stroke="${ink}" stroke-width="3.2" /><circle cx="48" cy="54" r="10" fill="#FFBAC4" /><circle cx="152" cy="54" r="18" fill="${earCol}" stroke="${ink}" stroke-width="3.2" /><circle cx="152" cy="54" r="10" fill="#FFBAC4" />`,
-      ear_deer: `<ellipse cx="50" cy="50" rx="9" ry="22" transform="rotate(-35 50 50)" fill="${earCol}" stroke="${ink}" stroke-width="3.2" /><ellipse cx="50" cy="50" rx="5" ry="14" transform="rotate(-35 50 50)" fill="#FFBAC4" /><ellipse cx="150" cy="50" rx="9" ry="22" transform="rotate(35 150 50)" fill="${earCol}" stroke="${ink}" stroke-width="3.2" /><ellipse cx="150" cy="50" rx="5" ry="14" transform="rotate(35 150 50)" fill="#FFBAC4" />`,
-      ear_pointed: `<polygon points="50,84 20,80 48,96" fill="${earCol}" stroke="${ink}" stroke-width="3.2" stroke-linejoin="round" /><polygon points="150,84 180,80 152,96" fill="${earCol}" stroke="${ink}" stroke-width="3.2" stroke-linejoin="round" />`,
-      ear_fluffy_top: `<g fill="${earCol}" stroke="${ink}" stroke-width="2.8"><circle cx="56" cy="60" r="10" /><circle cx="68" cy="54" r="9" /><circle cx="144" cy="60" r="10" /><circle cx="132" cy="54" r="9" /></g>`
+      ear_devil: `<path d="M68,62 Q66,40 56,36 Q66,48 76,58 Z" fill="${earCol}" stroke="${ink}" stroke-width="3" stroke-linejoin="round" /><path d="M132,62 Q134,40 144,36 Q134,48 124,58 Z" fill="${earCol}" stroke="${ink}" stroke-width="3" stroke-linejoin="round" />`,
+      ear_curled: `<path d="M52,70 C34,60 30,86 46,88 C54,89 58,82 54,74 C50,68 40,72 44,78" fill="none" stroke="${ink}" stroke-width="11" stroke-linecap="round" /><path d="M52,70 C34,60 30,86 46,88 C54,89 58,82 54,74 C50,68 40,72 44,78" fill="none" stroke="${earCol}" stroke-width="6" stroke-linecap="round" /><path d="M148,70 C166,60 170,86 154,88 C146,89 142,82 146,74 C150,68 160,72 156,78" fill="none" stroke="${ink}" stroke-width="11" stroke-linecap="round" /><path d="M148,70 C166,60 170,86 154,88 C146,89 142,82 146,74 C150,68 160,72 156,78" fill="none" stroke="${earCol}" stroke-width="6" stroke-linecap="round" />`,
+      ear_dragon: `<path d="M48,88 L26,74 L38,88 L24,96 L42,102 L28,110 L48,112 Z" fill="${earCol}" stroke="${ink}" stroke-width="3" stroke-linejoin="round" /><path d="M152,88 L174,74 L162,88 L176,96 L158,102 L172,110 L152,112 Z" fill="${earCol}" stroke="${ink}" stroke-width="3" stroke-linejoin="round" />`,
+      ear_bunny_droop: `<ellipse cx="40" cy="110" rx="9" ry="32" transform="rotate(10 40 110)" fill="${earCol}" stroke="${ink}" stroke-width="3.2" /><ellipse cx="40" cy="110" rx="4.5" ry="24" transform="rotate(10 40 110)" fill="#FFBAC4" /><ellipse cx="160" cy="110" rx="9" ry="32" transform="rotate(-10 160 110)" fill="${earCol}" stroke="${ink}" stroke-width="3.2" /><ellipse cx="160" cy="110" rx="4.5" ry="24" transform="rotate(-10 160 110)" fill="#FFBAC4" />`,
+      ear_mouse: `<circle cx="48" cy="54" r="18" fill="${earCol}" stroke="${ink}" stroke-width="3.2" /><circle cx="48" cy="54" r="11" fill="#FFBAC4" /><circle cx="152" cy="54" r="18" fill="${earCol}" stroke="${ink}" stroke-width="3.2" /><circle cx="152" cy="54" r="11" fill="#FFBAC4" />`,
+      ear_deer: `<path d="M64,62 C62,44 54,30 46,18 M56,40 C44,38 38,44 36,46 M52,28 C42,24 40,16 40,14" fill="none" stroke="${ink}" stroke-width="6" stroke-linecap="round" /><path d="M64,62 C62,44 54,30 46,18 M56,40 C44,38 38,44 36,46 M52,28 C42,24 40,16 40,14" fill="none" stroke="${earCol}" stroke-width="3.6" stroke-linecap="round" /><path d="M136,62 C138,44 146,30 154,18 M144,40 C156,38 162,44 164,46 M148,28 C158,24 160,16 160,14" fill="none" stroke="${ink}" stroke-width="6" stroke-linecap="round" /><path d="M136,62 C138,44 146,30 154,18 M144,40 C156,38 162,44 164,46 M148,28 C158,24 160,16 160,14" fill="none" stroke="${earCol}" stroke-width="3.6" stroke-linecap="round" />`,
+      ear_pointed: `<polygon points="46,88 16,84 44,102" fill="${earCol}" stroke="${ink}" stroke-width="3.2" stroke-linejoin="round" /><polygon points="44,89 25,86 42,98" fill="#FFBAC4" /><polygon points="154,88 184,84 156,102" fill="${earCol}" stroke="${ink}" stroke-width="3.2" stroke-linejoin="round" /><polygon points="156,89 175,86 158,98" fill="#FFBAC4" />`,
+      ear_fluffy_top: `<g fill="${earCol}" stroke="${ink}" stroke-width="2.8"><circle cx="54" cy="62" r="9" /><circle cx="66" cy="54" r="11" /><circle cx="78" cy="60" r="9" /><circle cx="146" cy="62" r="9" /><circle cx="134" cy="54" r="11" /><circle cx="122" cy="60" r="9" /></g>`
     };
     const ears = earMap[state.earType] !== undefined ? earMap[state.earType] : earMap.ear_round;
 
-    // Hair
-    let hairSvg = '';
-    if (state.hairType === 'hair_tuft') {
-      hairSvg = `<path d="M90,60 Q97,40 104,57 Q111,43 114,60" fill="${earCol}" stroke="${ink}" stroke-width="2.8" stroke-linejoin="round" />`;
-    } else if (state.hairType === 'hair_bangs') {
-      hairSvg = `<path d="M68,66 Q80,82 90,68 Q100,84 110,68 Q120,82 132,66" fill="${earCol}" stroke="${ink}" stroke-width="2.8" stroke-linejoin="round" />`;
-    } else if (state.hairType === 'hair_curl') {
-      hairSvg = `<circle cx="93" cy="57" r="7.5" fill="${earCol}" stroke="${ink}" stroke-width="2.6" /><circle cx="107" cy="57" r="7.5" fill="${earCol}" stroke="${ink}" stroke-width="2.6" />`;
-    } else if (state.hairType === 'hair_parted') {
-      hairSvg = `<path d="M100,60 Q82,69 72,78 M100,60 Q118,69 128,78" fill="none" stroke="${ink}" stroke-width="3" stroke-linecap="round" />`;
-    } else if (state.hairType === 'hair_fluffy') {
-      hairSvg = `<circle cx="85" cy="56" r="8" fill="${earCol}" stroke="${ink}" stroke-width="2.6" /><circle cx="100" cy="52" r="9.5" fill="${earCol}" stroke="${ink}" stroke-width="2.6" /><circle cx="115" cy="56" r="8" fill="${earCol}" stroke="${ink}" stroke-width="2.6" />`;
-    } else if (state.hairType === 'hair_ahoge') {
-      hairSvg = `<path d="M100,60 Q95,38 110,36" fill="none" stroke="${ink}" stroke-width="3.2" stroke-linecap="round" />`;
-    } else if (state.hairType === 'hair_twinpuffs') {
-      hairSvg = `<circle cx="54" cy="70" r="10" fill="${earCol}" stroke="${ink}" stroke-width="2.6" /><circle cx="146" cy="70" r="10" fill="${earCol}" stroke="${ink}" stroke-width="2.6" />`;
-    } else if (state.hairType === 'hair_sideswept') {
-      hairSvg = `<path d="M68,66 Q102,78 130,68" fill="none" stroke="${ink}" stroke-width="4" stroke-linecap="round" />`;
-    } else if (state.hairType === 'hair_pigtails') {
-      hairSvg = `<ellipse cx="38" cy="100" rx="8" ry="18" transform="rotate(14 38 100)" fill="${earCol}" stroke="${ink}" stroke-width="2.6" /><ellipse cx="162" cy="100" rx="8" ry="18" transform="rotate(-14 162 100)" fill="${earCol}" stroke="${ink}" stroke-width="2.6" />`;
-    } else if (state.hairType === 'hair_mohawk') {
-      hairSvg = `<polygon points="92,60 96,38 102,52 106,40 110,60" fill="${earCol}" stroke="${ink}" stroke-width="2.6" stroke-linejoin="round" />`;
-    } else if (state.hairType === 'hair_swoop') {
-      hairSvg = `<path d="M90,62 Q106,76 124,68" fill="${earCol}" stroke="${ink}" stroke-width="2.8" stroke-linecap="round" />`;
-    } else if (state.hairType === 'hair_bob') {
-      hairSvg = `<path d="M60,78 Q60,54 100,54 Q140,54 140,78 L144,98 Q136,104 130,94 Q124,66 100,66 Q76,66 70,94 Q64,104 56,98 Z" fill="${earCol}" stroke="${ink}" stroke-width="2.8" stroke-linejoin="round" />`;
-    } else if (state.hairType === 'hair_messy') {
-      hairSvg = `<path d="M72,66 L78,48 L88,58 L98,44 L106,56 L118,46 L124,64 L114,66 L100,64 L86,66 Z" fill="${earCol}" stroke="${ink}" stroke-width="2.8" stroke-linejoin="round" />`;
-    } else if (state.hairType === 'hair_braid') {
-      hairSvg = `<g fill="${earCol}" stroke="${ink}" stroke-width="2.4"><ellipse cx="52" cy="80" rx="7" ry="6" transform="rotate(-15 52 80)" /><ellipse cx="48" cy="92" rx="6.5" ry="5.5" transform="rotate(15 48 92)" /><ellipse cx="45" cy="104" rx="6" ry="5" transform="rotate(-15 45 104)" /><ellipse cx="43" cy="115" rx="5" ry="4" transform="rotate(10 43 115)" /><circle cx="42" cy="122" r="3.5" fill="#FF80AB" /></g>`;
-    } else if (state.hairType === 'hair_ponytail') {
-      hairSvg = `<path d="M106,52 Q128,34 136,46 Q142,58 132,68 Q126,58 116,56 Z" fill="${earCol}" stroke="${ink}" stroke-width="2.8" stroke-linejoin="round" /><ellipse cx="110" cy="54" rx="4" ry="5" fill="#F0627D" stroke="${ink}" stroke-width="1.8" />`;
-    } else if (state.hairType === 'hair_wavy_fringe') {
-      hairSvg = `<path d="M70,64 Q82,78 92,66 Q100,74 108,66 Q118,78 130,64" fill="none" stroke="${ink}" stroke-width="3.5" stroke-linecap="round" />`;
-    } else if (state.hairType === 'hair_cowlick') {
-      hairSvg = `<path d="M96,58 Q88,38 78,42 M104,58 Q112,38 122,42" fill="none" stroke="${ink}" stroke-width="3" stroke-linecap="round" />`;
-    } else if (state.hairType === 'hair_dreadlocks') {
-      hairSvg = `<g stroke="${ink}" stroke-width="4.5" stroke-linecap="round"><line x1="72" y1="62" x2="68" y2="92" /><line x1="82" y1="58" x2="80" y2="82" /><line x1="118" y1="58" x2="120" y2="82" /><line x1="128" y1="62" x2="132" y2="92" /></g>`;
-    } else if (state.hairType === 'hair_curtains') {
-      hairSvg = `<path d="M100,58 Q84,60 74,86 L80,88 Q88,68 100,66 Q112,68 120,88 L126,86 Q116,60 100,58 Z" fill="${earCol}" stroke="${ink}" stroke-width="2.6" stroke-linejoin="round" />`;
-    }
+    // Hair disabled
+    const hairSvg = '';
 
     // Head Accessories
     let accSvg = '';
@@ -2327,16 +2363,26 @@ class ChiikawaRenderer {
         return `<ellipse cx="${x}" cy="108" rx="6.6" ry="7.2" fill="${eyeInk}" /><circle cx="${x - 1.5}" cy="105" r="2.2" fill="#FFFFFF" /><path d="M${x - 6},112 Q${x},126 ${x + 6},112" fill="#64B5F6" opacity="0.8" /><path d="M${x - 4},114 Q${x - 6},128 ${x - 2},132 M${x + 4},114 Q${x + 6},128 ${x + 2},132" stroke="#64B5F6" stroke-width="2.5" stroke-linecap="round" fill="none" />`;
       }
       if (st === 'eye_dizzy') {
-        return `<path d="M${x},108 m -7,0 a 7,7 0 1,0 14,0 a 5,5 0 1,0 -10,0 a 3,3 0 1,0 6,0" fill="none" stroke="${eyeInk}" stroke-width="2.2" stroke-linecap="round" />`;
+        let d = '';
+        for (let th = 0; th < Math.PI * 6.0; th += 0.2) {
+          const r = 0.8 + th * 0.95;
+          const px = (x + r * Math.cos(th)).toFixed(1);
+          const py = (108 + r * Math.sin(th)).toFixed(1);
+          d += (th === 0 ? `M${px},${py}` : ` L${px},${py}`);
+        }
+        return `<path d="${d}" fill="none" stroke="${eyeInk}" stroke-width="2.2" stroke-linecap="round" />`;
       }
       if (st === 'eye_heart') {
         return `<path d="M${x},114 C${x - 9},104 ${x - 9},97 ${x - 4},96 C${x - 1},95 ${x},99 ${x},99 C${x},99 ${x + 1},95 ${x + 4},96 C${x + 9},97 ${x + 9},104 ${x},114 Z" fill="#FF4081" stroke="${eyeInk}" stroke-width="1.8" /><circle cx="${x - 2}" cy="102" r="1.8" fill="#FFFFFF" />`;
       }
       if (st === 'eye_angry') {
-        return `<polygon points="${x - (isR ? 6 : 8)},${isR ? 104 : 112} ${x + (isR ? 8 : 6)},${isR ? 112 : 104} ${x + (isR ? 5 : 3)},113 ${x - (isR ? 3 : 5)},113" fill="${eyeInk}" /><circle cx="${x}" cy="109" r="4.5" fill="${eyeInk}" /><circle cx="${x - 1}" cy="108" r="1.6" fill="#FFFFFF" />`;
+        const p = !isR
+          ? `M${x - 7},103 L${x + 6},107 A6,6 0 0 1 ${x - 7},107 Z`
+          : `M${x - 6},107 L${x + 7},103 A6,6 0 0 1 ${x - 6},107 Z`;
+        return `<path d="${p}" fill="${eyeInk}" stroke="${eyeInk}" stroke-width="1.6" stroke-linejoin="round" /><circle cx="${x - 1.5}" cy="107.5" r="1.6" fill="#FFFFFF" />`;
       }
       if (st === 'eye_cross') {
-        return `<line x1="${x - 6}" y1="102" x2="${x + 6}" y2="114" stroke="${eyeInk}" stroke-width="3.2" stroke-linecap="round" /><line x1="${x + 6}" y1="102" x2="${x - 6}" y2="114" stroke="${eyeInk}" stroke-width="3.2" stroke-linecap="round" />`;
+        return `<line x1="${x - 6}" y1="102" x2="${x + 6}" y2="114" stroke="${eyeInk}" stroke-width="3" stroke-linecap="round" /><line x1="${x + 6}" y1="102" x2="${x - 6}" y2="114" stroke="${eyeInk}" stroke-width="3" stroke-linecap="round" />`;
       }
       if (st === 'eye_squint') {
         return `<path d="M${x - 7},108 Q${x},100 ${x + 7},108" fill="none" stroke="${eyeInk}" stroke-width="3.4" stroke-linecap="round" />`;
@@ -2382,18 +2428,18 @@ class ChiikawaRenderer {
     if (state.marking === 'mark_eyepatch') markSvg = `<ellipse cx="122" cy="108" rx="14" ry="12" fill="${pointCol}" />`;
     else if (state.marking === 'mark_raccoon') markSvg = `<ellipse cx="78" cy="108" rx="13" ry="11" fill="${pointCol}" /><ellipse cx="122" cy="108" rx="13" ry="11" fill="${pointCol}" />`;
     else if (state.marking === 'mark_star') markSvg = `<polygon points="100,72 102,78 109,79 104,84 105,91 100,87 95,91 96,84 91,79 98,78" fill="${pointCol}" />`;
-    else if (state.marking === 'mark_tiger') markSvg = `<line x1="94" y1="70" x2="94" y2="82" stroke="${pointCol}" stroke-width="3" stroke-linecap="round" /><line x1="100" y1="68" x2="100" y2="83" stroke="${pointCol}" stroke-width="3" stroke-linecap="round" /><line x1="106" y1="70" x2="106" y2="82" stroke="${pointCol}" stroke-width="3" stroke-linecap="round" /><line x1="40" y1="106" x2="52" y2="106" stroke="${pointCol}" stroke-width="3" stroke-linecap="round" /><line x1="40" y1="114" x2="50" y2="114" stroke="${pointCol}" stroke-width="3" stroke-linecap="round" /><line x1="148" y1="106" x2="160" y2="106" stroke="${pointCol}" stroke-width="3" stroke-linecap="round" /><line x1="150" y1="114" x2="160" y2="114" stroke="${pointCol}" stroke-width="3" stroke-linecap="round" />`;
+    else if (state.marking === 'mark_tiger') markSvg = `<line x1="94" y1="70" x2="94" y2="82" stroke="${pointCol}" stroke-width="3" stroke-linecap="round" /><line x1="100" y1="68" x2="100" y2="83" stroke="${pointCol}" stroke-width="3" stroke-linecap="round" /><line x1="106" y1="70" x2="106" y2="82" stroke="${pointCol}" stroke-width="3" stroke-linecap="round" /><line x1="50" y1="112" x2="64" y2="112" stroke="${pointCol}" stroke-width="2.5" stroke-linecap="round" /><line x1="52" y1="118" x2="62" y2="118" stroke="${pointCol}" stroke-width="2.5" stroke-linecap="round" /><line x1="136" y1="112" x2="150" y2="112" stroke="${pointCol}" stroke-width="2.5" stroke-linecap="round" /><line x1="138" y1="118" x2="148" y2="118" stroke="${pointCol}" stroke-width="2.5" stroke-linecap="round" />`;
     else if (state.marking === 'mark_maro') markSvg = `<ellipse cx="78" cy="94" rx="5.5" ry="3.8" fill="${pointCol}" /><ellipse cx="122" cy="94" rx="5.5" ry="3.8" fill="${pointCol}" />`;
     else if (state.marking === 'mark_freckles') markSvg = `<circle cx="62" cy="118" r="1.5" fill="${pointCol}" /><circle cx="66" cy="120" r="1.5" fill="${pointCol}" /><circle cx="134" cy="120" r="1.5" fill="${pointCol}" /><circle cx="138" cy="118" r="1.5" fill="${pointCol}" />`;
     else if (state.marking === 'mark_muzzle') markSvg = `<ellipse cx="100" cy="117" rx="13" ry="8" fill="${pointCol}" opacity="0.3" />`;
-    else if (state.marking === 'mark_heart') markSvg = `<path d="M100,82 C93,73 91,65 96,63 C99,62 100,66 100,66 C100,66 101,62 104,63 C109,65 107,73 100,82 Z" fill="${pointCol}" />`;
+    else if (state.marking === 'mark_heart') markSvg = `<path d="M138,123 C132,117 131,110 136,108 C139,107 140,110 140,110 C140,110 141,107 144,108 C149,110 148,117 138,123 Z" fill="${pointCol}" />`;
     else if (state.marking === 'mark_cross') markSvg = `<line x1="58" y1="96" x2="70" y2="108" stroke="${pointCol}" stroke-width="3" stroke-linecap="round" /><line x1="70" y1="96" x2="58" y2="108" stroke="${pointCol}" stroke-width="3" stroke-linecap="round" />`;
     else if (state.marking === 'mark_whiskers') markSvg = `<line x1="42" y1="108" x2="60" y2="110" stroke="${pointCol}" stroke-width="2.2" stroke-linecap="round" /><line x1="40" y1="116" x2="58" y2="116" stroke="${pointCol}" stroke-width="2.2" stroke-linecap="round" /><line x1="42" y1="124" x2="60" y2="122" stroke="${pointCol}" stroke-width="2.2" stroke-linecap="round" /><line x1="158" y1="108" x2="140" y2="110" stroke="${pointCol}" stroke-width="2.2" stroke-linecap="round" /><line x1="160" y1="116" x2="142" y2="116" stroke="${pointCol}" stroke-width="2.2" stroke-linecap="round" /><line x1="158" y1="124" x2="140" y2="122" stroke="${pointCol}" stroke-width="2.2" stroke-linecap="round" />`;
     else if (state.marking === 'mark_lightning') markSvg = `<polygon points="98,64 105,64 100,75 105,75 95,88 98,78 93,78" fill="${pointCol}" />`;
     else if (state.marking === 'mark_panda') markSvg = `<ellipse cx="78" cy="108" rx="14" ry="12" transform="rotate(-15 78 108)" fill="${pointCol}" /><ellipse cx="122" cy="108" rx="14" ry="12" transform="rotate(15 122 108)" fill="${pointCol}" />`;
-    else if (state.marking === 'mark_spot') markSvg = `<ellipse cx="120" cy="85" rx="12" ry="10" transform="rotate(20 120 85)" fill="${pointCol}" />`;
+    else if (state.marking === 'mark_spot') markSvg = `<ellipse cx="78" cy="108" rx="16" ry="14" transform="rotate(-10 78 108)" fill="${pointCol}" />`;
     else if (state.marking === 'mark_clover') markSvg = `<g fill="${pointCol}"><circle cx="97" cy="74" r="3.5" /><circle cx="103" cy="74" r="3.5" /><circle cx="97" cy="80" r="3.5" /><circle cx="103" cy="80" r="3.5" /><path d="M100,78 Q99,86 96,87" stroke="${pointCol}" stroke-width="1.8" fill="none" /></g>`;
-    else if (state.marking === 'mark_teardrop') markSvg = `<path d="M82,120 C80,123 78,126 82,128 C86,126 84,123 82,120 Z" fill="${pointCol}" />`;
+    else if (state.marking === 'mark_teardrop') markSvg = `<path d="M125,118 C123,121 121,124 125,126 C129,124 127,121 125,118 Z" fill="${pointCol}" />`;
 
     let blushSvg = `
       <ellipse cx="63" cy="120" rx="10.5" ry="5.8" fill="#FABCC8" />
@@ -2411,7 +2457,7 @@ class ChiikawaRenderer {
     else if (state.blushStyle === 'blush_cat') blushSvg = `<line x1="52" y1="117" x2="72" y2="117" stroke="#FF7597" stroke-width="2" stroke-linecap="round" /><line x1="54" y1="122" x2="70" y2="122" stroke="#FF7597" stroke-width="2" stroke-linecap="round" /><line x1="128" y1="117" x2="148" y2="117" stroke="#FF7597" stroke-width="2" stroke-linecap="round" /><line x1="130" y1="122" x2="146" y2="122" stroke="#FF7597" stroke-width="2" stroke-linecap="round" />`;
     else if (state.blushStyle === 'blush_spiral') blushSvg = `<path d="M63,120 m -6,0 a 6,6 0 1,0 12,0 a 4,4 0 1,0 -8,0 a 2,2 0 1,0 4,0" fill="none" stroke="#FF4081" stroke-width="1.8" stroke-linecap="round" /><path d="M137,120 m -6,0 a 6,6 0 1,0 12,0 a 4,4 0 1,0 -8,0 a 2,2 0 1,0 4,0" fill="none" stroke="#FF4081" stroke-width="1.8" stroke-linecap="round" />`;
     else if (state.blushStyle === 'blush_flower') blushSvg = `<g fill="#FF80AB" stroke="#F0627D" stroke-width="1"><circle cx="63" cy="117" r="2.5" /><circle cx="66" cy="119" r="2.5" /><circle cx="65" cy="123" r="2.5" /><circle cx="61" cy="123" r="2.5" /><circle cx="60" cy="119" r="2.5" /><circle cx="63" cy="120" r="2" fill="#FFF59D" /><circle cx="137" cy="117" r="2.5" /><circle cx="140" cy="119" r="2.5" /><circle cx="139" cy="123" r="2.5" /><circle cx="135" cy="123" r="2.5" /><circle cx="134" cy="119" r="2.5" /><circle cx="137" cy="120" r="2" fill="#FFF59D" /></g>`;
-    else if (state.blushStyle === 'blush_rainbow') blushSvg = `<path d="M56,122 A8,8 0 0 1 70,122" fill="none" stroke="#FF5252" stroke-width="1.8" /><path d="M57,124 A7,7 0 0 1 69,124" fill="none" stroke="#FFEB3B" stroke-width="1.8" /><path d="M58,126 A6,6 0 0 1 68,126" fill="none" stroke="#42A5F5" stroke-width="1.8" /><path d="M130,122 A8,8 0 0 1 144,122" fill="none" stroke="#FF5252" stroke-width="1.8" /><path d="M131,124 A7,7 0 0 1 143,124" fill="none" stroke="#FFEB3B" stroke-width="1.8" /><path d="M132,126 A6,6 0 0 1 142,126" fill="none" stroke="#42A5F5" stroke-width="1.8" />`;
+    else if (state.blushStyle === 'blush_rainbow') blushSvg = `<path d="M54,124 A11,11 0 0 1 72,124" fill="none" stroke="#FF5252" stroke-width="2" /><path d="M56,126 A8,8 0 0 1 70,126" fill="none" stroke="#FFD54F" stroke-width="2" /><path d="M58,128 A5,5 0 0 1 68,128" fill="none" stroke="#40C4FF" stroke-width="2" /><path d="M128,124 A11,11 0 0 1 146,124" fill="none" stroke="#FF5252" stroke-width="2" /><path d="M130,126 A8,8 0 0 1 144,126" fill="none" stroke="#FFD54F" stroke-width="2" /><path d="M132,128 A5,5 0 0 1 142,128" fill="none" stroke="#40C4FF" stroke-width="2" />`;
 
     let glassesSvg = '';
     if (state.glasses === 'glasses_round') glassesSvg = `<circle cx="78" cy="108" r="12" fill="rgba(255,255,255,0.25)" stroke="${ink}" stroke-width="2.4" /><circle cx="122" cy="108" r="12" fill="rgba(255,255,255,0.25)" stroke="${ink}" stroke-width="2.4" /><line x1="90" y1="108" x2="110" y2="108" stroke="${ink}" stroke-width="2.4" />`;
@@ -2424,12 +2470,12 @@ class ChiikawaRenderer {
     else if (state.glasses === 'glasses_goggles') glassesSvg = `<line x1="42" y1="108" x2="158" y2="108" stroke="#5D4037" stroke-width="4" /><circle cx="78" cy="108" r="14" fill="#80DEEA" opacity="0.8" stroke="#37474F" stroke-width="3" /><circle cx="122" cy="108" r="14" fill="#80DEEA" opacity="0.8" stroke="#37474F" stroke-width="3" /><circle cx="78" cy="108" r="10" fill="none" stroke="#FFFFFF" opacity="0.6" stroke-width="1.5" /><circle cx="122" cy="108" r="10" fill="none" stroke="#FFFFFF" opacity="0.6" stroke-width="1.5" />`;
     else if (state.glasses === 'glasses_dizzy') glassesSvg = `<circle cx="78" cy="108" r="13" fill="#FFFFFF" stroke="${ink}" stroke-width="2.4" /><circle cx="78" cy="108" r="9" fill="none" stroke="${ink}" stroke-width="2" /><circle cx="78" cy="108" r="5" fill="none" stroke="${ink}" stroke-width="2" /><circle cx="122" cy="108" r="13" fill="#FFFFFF" stroke="${ink}" stroke-width="2.4" /><circle cx="122" cy="108" r="9" fill="none" stroke="${ink}" stroke-width="2" /><circle cx="122" cy="108" r="5" fill="none" stroke="${ink}" stroke-width="2" /><line x1="91" y1="108" x2="109" y2="108" stroke="${ink}" stroke-width="2.4" />`;
     else if (state.glasses === 'glasses_half') glassesSvg = `<path d="M67,108 Q78,118 89,108" fill="none" stroke="${ink}" stroke-width="2.6" stroke-linecap="round" /><path d="M111,108 Q122,118 133,108" fill="none" stroke="${ink}" stroke-width="2.6" stroke-linecap="round" /><line x1="89" y1="108" x2="111" y2="108" stroke="${ink}" stroke-width="2.4" />`;
-    else if (state.glasses === 'glasses_cat') glassesSvg = `<path d="M64,98 L72,102 Q78,118 88,104 L90,102" fill="none" stroke="#E91E63" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /><path d="M136,98 L128,102 Q122,118 112,104 L110,102" fill="none" stroke="#E91E63" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /><line x1="90" y1="103" x2="110" y2="103" stroke="#E91E63" stroke-width="2.6" />`;
-    else if (state.glasses === 'glasses_sleep') glassesSvg = `<rect x="62" y="98" width="76" height="20" rx="9" fill="#CE93D8" stroke="${ink}" stroke-width="2.4" /><path d="M72,108 Q78,114 84,108 M116,108 Q122,114 128,108" fill="none" stroke="${ink}" stroke-width="2" stroke-linecap="round" />`;
+    else if (state.glasses === 'glasses_cat') glassesSvg = `<path d="M60,114 Q86,114 90,98 Q72,100 58,104 Z" fill="rgba(40,30,30,0.85)" stroke="#E91E63" stroke-width="2.2" stroke-linejoin="round" /><path d="M140,114 Q114,114 110,98 Q128,100 142,104 Z" fill="rgba(40,30,30,0.85)" stroke="#E91E63" stroke-width="2.2" stroke-linejoin="round" /><line x1="88" y1="102" x2="112" y2="102" stroke="#E91E63" stroke-width="2.2" />`;
+    else if (state.glasses === 'glasses_sleep') glassesSvg = `<rect x="60" y="96" width="80" height="24" rx="10" fill="#CE93D8" stroke="${ink}" stroke-width="2.4" /><line x1="50" y1="108" x2="60" y2="108" stroke="${ink}" stroke-width="2.2" /><line x1="140" y1="108" x2="150" y2="108" stroke="${ink}" stroke-width="2.2" /><path d="M72,107 Q78,114 84,107 M116,107 Q122,114 128,107" fill="none" stroke="#5E35B1" stroke-width="2.2" stroke-linecap="round" />`;
 
     const face = isBack ? '' : `
-      ${markSvg}
       ${blushSvg}
+      ${markSvg}
       ${eyePair(78, false)}
       ${eyePair(122, true)}
       ${browPair(78, -1)}

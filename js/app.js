@@ -16,8 +16,7 @@ const SUBTABS_CONFIG = {
   ],
   head: [
     { id: 'ears', label: 'Ears' },
-    { id: 'accessories', label: 'Accessories' },
-    { id: 'hair', label: 'Hair' }
+    { id: 'accessories', label: 'Accessories' }
   ],
   dressUp: [
     { id: 'tails', label: 'Tail' },
@@ -218,7 +217,7 @@ class ChiikawaApp {
     const zoomedIn =
       this.activeCategory === 'face' ||
       (this.activeCategory === 'body' && (this.activeSubtab === 'bodyColor' || this.activeSubtab === 'shape')) ||
-      (this.activeCategory === 'head' && (this.activeSubtab === 'accessories' || this.activeSubtab === 'hair'));
+      (this.activeCategory === 'head' && this.activeSubtab === 'accessories');
     const wrap = document.getElementById('stage-canvas-wrap');
     if (wrap) {
       wrap.classList.toggle('stage-zoom-in', zoomedIn);
