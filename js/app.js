@@ -234,71 +234,103 @@ class ChiikawaApp {
 
     if (subs.length === 0) {
       bar.style.display = 'none';
+      bar.dataset.renderedCat = '';
       return;
     }
     bar.style.display = 'flex';
 
-    const pillsHtml = subs.map(s => `
-      <button class="subtab-pill ${this.activeSubtab === s.id ? 'active' : ''}" data-sub="${s.id}">
-        ${s.label}
-      </button>
-    `).join('');
+    let pillsWrap = bar.querySelector('.subtabs-pills');
+    const isSameCategory = pillsWrap && bar.dataset.renderedCat === this.activeCategory;
 
-    bar.innerHTML = `<div class="subtabs-pills">${pillsHtml}</div>`;
+    if (!isSameCategory) {
+      bar.dataset.renderedCat = this.activeCategory;
+      const pillsHtml = subs.map(s => `
+        <button class="subtab-pill ${this.activeSubtab === s.id ? 'active' : ''}" data-sub="${s.id}">
+          ${s.label}
+        </button>
+      `).join('');
 
-    const pillsWrap = bar.querySelector('.subtabs-pills');
+      bar.innerHTML = `<div class="subtabs-pills">${pillsHtml}</div>`;
+      pillsWrap = bar.querySelector('.subtabs-pills');
 
-    // Horizontal mouse wheel scrolling
-    const handleWheel = (e) => {
-      if (e.deltaY !== 0) {
-        e.preventDefault();
-        pillsWrap.scrollLeft += e.deltaY;
-      }
-    };
-    bar.onwheel = handleWheel;
-    pillsWrap.onwheel = handleWheel;
-
-    // Mouse drag-to-scroll support for desktop
-    let isDown = false;
-    let startX = 0;
-    let scrollLeft = 0;
-
-    pillsWrap.onmousedown = (e) => {
-      if (e.target.tagName === 'BUTTON') return;
-      isDown = true;
-      startX = e.pageX - pillsWrap.offsetLeft;
-      scrollLeft = pillsWrap.scrollLeft;
-    };
-    window.addEventListener('mouseup', () => { isDown = false; });
-    pillsWrap.onmousemove = (e) => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - pillsWrap.offsetLeft;
-      const walk = (x - startX) * 1.5;
-      pillsWrap.scrollLeft = scrollLeft - walk;
-    };
-
-    bar.querySelectorAll('.subtab-pill').forEach(btn => {
-      if (btn.classList.contains('active')) {
-        setTimeout(() => {
-          btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-        }, 30);
-      }
-      btn.addEventListener('click', () => {
-        this.activeSubtab = btn.dataset.sub;
-
-        if (this.activeSubtab === 'tails') {
-          this.state.rotationAngle = 145;
-        } else if (this.activeCategory === 'dressUp' && this.activeSubtab === 'neckBags') {
-          this.state.rotationAngle = 0;
+      // Horizontal mouse wheel scrolling
+      const handleWheel = (e) => {
+        if (e.deltaY !== 0) {
+          e.preventDefault();
+          pillsWrap.scrollLeft += e.deltaY;
         }
+      };
+      bar.onwheel = handleWheel;
+      pillsWrap.onwheel = handleWheel;
 
-        this._updateCameraZoom();
-        this.renderSubtabs();
-        this.renderWorkspace();
-        this.renderer.renderCharacter(this.state);
+      // Mouse drag-to-scroll support for desktop
+      let isDown = false;
+      let startX = 0;
+      let scrollLeft = 0;
+
+      pillsWrap.onmousedown = (e) => {
+        if (e.target.tagName === 'BUTTON') return;
+        isDown = true;
+        startX = e.pageX - pillsWrap.offsetLeft;
+        scrollLeft = pillsWrap.scrollLeft;
+      };
+      window.addEventListener('mouseup', () => { isDown = false; });
+      pillsWrap.onmousemove = (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - pillsWrap.offsetLeft;
+        const walk = (x - startX) * 1.5;
+        pillsWrap.scrollLeft = scrollLeft - walk;
+      };
+
+      bar.querySelectorAll('.subtab-pill').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const targetSub = btn.dataset.sub;
+          if (this.activeSubtab === targetSub) return;
+          this.activeSubtab = targetSub;
+
+          if (this.activeSubtab === 'tails') {
+            this.state.rotationAngle = 145;
+          } else if (this.activeCategory === 'dressUp' && this.activeSubtab === 'neckBags') {
+            this.state.rotationAngle = 0;
+          }
+
+          this._updateCameraZoom();
+          this.renderSubtabs();
+          this.renderWorkspace();
+          this.renderer.renderCharacter(this.state);
+        });
       });
+    }
+
+    // Update active classes without wiping DOM or resetting scroll
+    let activeBtn = null;
+    bar.querySelectorAll('.subtab-pill').forEach(btn => {
+      const isActive = (btn.dataset.sub === this.activeSubtab);
+      btn.classList.toggle('active', isActive);
+      if (isActive) activeBtn = btn;
     });
+
+    // Safely scroll active pill within pillsWrap ONLY (never scrolls ancestors/window)
+    if (activeBtn && pillsWrap) {
+      setTimeout(() => {
+        const wrapWidth = pillsWrap.clientWidth;
+        const pillLeft = activeBtn.offsetLeft;
+        const pillWidth = activeBtn.offsetWidth;
+        const targetLeft = pillLeft - (wrapWidth / 2) + (pillWidth / 2);
+        pillsWrap.scrollTo({
+          left: Math.max(0, targetLeft),
+          behavior: 'smooth'
+        });
+      }, 15);
+    }
+
+    // Guarantee that outer containers are NEVER shifted
+    const gw = document.getElementById('game-app');
+    if (gw && gw.scrollLeft !== 0) gw.scrollLeft = 0;
+    if (document.body.scrollLeft !== 0) document.body.scrollLeft = 0;
+    if (document.documentElement.scrollLeft !== 0) document.documentElement.scrollLeft = 0;
   }
 
   renderWorkspace() {

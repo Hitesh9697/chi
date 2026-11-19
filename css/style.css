@@ -28,6 +28,8 @@
 html {
   height: 100%;
   height: 100dvh;
+  overflow-x: hidden !important;
+  overscroll-behavior-x: none;
 }
 
 body {
@@ -41,10 +43,13 @@ body {
   height: 100%;
   height: 100dvh;
   width: 100%;
+  max-width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  overflow-x: hidden !important;
+  overscroll-behavior-x: none;
   position: fixed;
   inset: 0;
 }
@@ -61,6 +66,8 @@ body {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  overflow-x: hidden !important;
+  overscroll-behavior-x: none;
   box-shadow: 0 12px 36px rgba(58, 46, 43, 0.16);
 }
 
@@ -358,19 +365,16 @@ body {
 .subtabs-bar {
   display: flex;
   align-items: center;
-  padding: 6px 12px;
   background-color: var(--bg-cream);
   border-bottom: 1px solid #F0E8DC;
-  gap: 6px;
   flex-shrink: 0;
   min-height: 42px;
   width: 100%;
   max-width: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  cursor: grab;
+  overflow: hidden;
+  padding: 0;
+  box-sizing: border-box;
+  position: relative;
 }
 
 .subtabs-bar::-webkit-scrollbar {
@@ -383,20 +387,30 @@ body {
   gap: 6px;
   width: 100%;
   max-width: 100%;
+  padding: 6px 12px;
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  flex-shrink: 0;
   cursor: grab;
+  box-sizing: border-box;
+  position: relative;
 }
 
-.subtabs-pills:active, .subtabs-bar:active {
+.subtabs-pills:active {
   cursor: grabbing;
 }
 
 .subtabs-pills::-webkit-scrollbar {
   display: none;
+}
+
+.subtabs-pills::after {
+  content: '';
+  display: block;
+  flex-shrink: 0;
+  width: 14px;
+  height: 1px;
 }
 
 .subtab-pill {
@@ -519,6 +533,8 @@ body {
   flex-direction: column;
   align-items: center;
   cursor: pointer;
+  min-width: 0;
+  overflow: hidden;
   transition: border-color 0.15s ease, background-color 0.15s ease, transform 0.1s ease;
 }
 
@@ -576,6 +592,10 @@ body {
   color: var(--text-main);
   text-align: center;
   line-height: 1.2;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* Face & Personality Sliders */
@@ -970,7 +990,10 @@ body {
   }
   .subtabs-bar {
     min-height: 36px;
-    padding: 4px 8px;
+    padding: 0;
+  }
+  .subtabs-pills {
+    padding: 4px 10px;
   }
   .subtab-pill {
     padding: 3px 10px;
@@ -1030,7 +1053,10 @@ body {
   }
   .subtabs-bar {
     min-height: 30px;
-    padding: 2px 6px;
+    padding: 0;
+  }
+  .subtabs-pills {
+    padding: 2px 8px;
   }
   .subtab-pill {
     padding: 2px 8px;
