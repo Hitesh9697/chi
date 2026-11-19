@@ -95,7 +95,7 @@ class ChiikawaRenderer {
 
     this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-    this.renderer.setSize(w, h);
+    this.renderer.setSize(w, h, false);
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
 
     this.container.innerHTML = '';
@@ -129,23 +129,27 @@ class ChiikawaRenderer {
     this.faceTexture.magFilter = THREE.LinearFilter;
     this.faceTexture.needsUpdate = true;
 
+    const onContainerResize = () => {
+      const nw = Math.round(this.container.clientWidth || 215);
+      const nh = Math.round(this.container.clientHeight || 215);
+      if (nw > 0 && nh > 0) {
+        const aspect = nw / nh;
+        const halfH = this._orthoHalfH;
+        const halfW = halfH * aspect;
+        this.camera.left = -halfW;
+        this.camera.right = halfW;
+        this.camera.top = halfH;
+        this.camera.bottom = -halfH;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize(nw, nh, false);
+      }
+    };
+
     if (typeof ResizeObserver !== 'undefined') {
-      new ResizeObserver(() => {
-        const nw = this.container.clientWidth || 215;
-        const nh = this.container.clientHeight || 215;
-        if (nw > 0 && nh > 0) {
-          const aspect = nw / nh;
-          const halfH = this._orthoHalfH;
-          const halfW = halfH * aspect;
-          this.camera.left = -halfW;
-          this.camera.right = halfW;
-          this.camera.top = halfH;
-          this.camera.bottom = -halfH;
-          this.camera.updateProjectionMatrix();
-          this.renderer.setSize(nw, nh);
-        }
-      }).observe(this.container);
+      new ResizeObserver(onContainerResize).observe(this.container);
     }
+    window.addEventListener('resize', onContainerResize);
+    window.addEventListener('orientationchange', onContainerResize);
   }
 
   _makeToonMat(colorOrMap, isTexture = false) {

@@ -25,6 +25,11 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+html {
+  height: 100%;
+  height: 100dvh;
+}
+
 body {
   font-family: 'Noto Sans KR', 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: #DFF2FC;
@@ -33,11 +38,15 @@ body {
     linear-gradient(180deg, #CBE9FA 0%, #FFF7EC 58%, #E4F4CC 100%);
   background-size: 28px 28px, 100% 100%;
   color: var(--text-main);
-  min-height: 100vh;
+  height: 100%;
+  height: 100dvh;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  position: fixed;
+  inset: 0;
 }
 
 .game-wrapper {
@@ -45,8 +54,9 @@ body {
   width: 100%;
   max-width: 440px;
   min-width: 0;
-  height: 100vh;
-  max-height: 860px;
+  height: 100%;
+  height: 100dvh;
+  max-height: 100dvh;
   background-color: var(--bg-cream);
   display: flex;
   flex-direction: column;
@@ -62,10 +72,11 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 28px 24px 20px;
+  justify-content: space-between;
+  padding: max(24px, env(safe-area-inset-top)) 24px max(20px, env(safe-area-inset-bottom));
   background: linear-gradient(180deg, #DFF2FC 0%, #FFFDF8 55%, #FFF5D1 100%);
   text-align: center;
+  box-sizing: border-box;
 }
 
 .start-content {
@@ -108,8 +119,18 @@ body {
 }
 
 @media (min-width: 500px) {
+  body {
+    position: static;
+    min-height: 100vh;
+    min-height: 100dvh;
+    height: auto;
+    overflow: auto;
+  }
+
   .game-wrapper {
-    height: 95vh;
+    height: 94vh;
+    height: 94dvh;
+    max-height: 860px;
     border-radius: 24px;
     border: 3px solid #FFFFFF;
   }
@@ -120,6 +141,8 @@ body {
   flex-direction: column;
   width: 100%;
   height: 100%;
+  min-height: 0;
+  flex: 1;
   overflow: hidden;
 }
 
@@ -128,7 +151,7 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 12px;
+  padding: max(8px, env(safe-area-inset-top)) 12px 8px;
   background-color: var(--bg-cream);
   border-bottom: 1.5px solid var(--border-soft);
   flex-shrink: 0;
@@ -199,7 +222,7 @@ body {
 .stage-container {
   position: relative;
   width: 100%;
-  height: 220px;
+  height: clamp(135px, 25vh, 215px);
   flex-shrink: 0;
   overflow: hidden;
   cursor: grab;
@@ -226,14 +249,25 @@ body {
 .stage-character-mount {
   position: absolute;
   left: 50%;
-  bottom: 6px;
+  bottom: 4px;
   transform: translateX(-50%);
-  width: 215px;
-  height: 215px;
+  height: 94%;
+  max-height: 215px;
+  aspect-ratio: 1 / 1;
+  max-width: 95%;
+  width: auto;
   pointer-events: none;
   display: flex;
   align-items: flex-end;
   justify-content: center;
+}
+
+.stage-character-mount canvas {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
 }
 
 .character-svg-wrap {
@@ -268,7 +302,7 @@ body {
   background-color: var(--bg-panel);
   border-top: 1.5px solid var(--border-soft);
   border-bottom: 1.5px solid var(--border-soft);
-  padding: 6px 4px;
+  padding: 5px 4px;
   flex-shrink: 0;
 }
 
@@ -324,12 +358,12 @@ body {
 .subtabs-bar {
   display: flex;
   align-items: center;
-  padding: 8px 12px;
+  padding: 6px 12px;
   background-color: var(--bg-cream);
   border-bottom: 1px solid #F0E8DC;
   gap: 6px;
   flex-shrink: 0;
-  min-height: 46px;
+  min-height: 42px;
   width: 100%;
   max-width: 100%;
   overflow-x: auto;
@@ -409,8 +443,10 @@ body {
 /* ================= 5. OPTIONS WORKSPACE ================= */
 .options-workspace {
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
-  padding: 12px 14px 16px;
+  -webkit-overflow-scrolling: touch;
+  padding: 10px 12px 14px;
   background-color: var(--bg-cream);
   scrollbar-width: thin;
   scrollbar-color: #DFD5C8 transparent;
@@ -612,7 +648,7 @@ body {
 
 /* ================= 6. BOTTOM ACTION BAR ================= */
 .bottom-action-bar {
-  padding: 10px 16px 14px;
+  padding: 8px 16px max(12px, env(safe-area-inset-bottom));
   background-color: var(--bg-cream);
   border-top: 1px solid #F0E8DC;
   flex-shrink: 0;
@@ -620,13 +656,13 @@ body {
 
 .btn-main-finish {
   width: 100%;
-  height: 46px;
+  height: 44px;
   border: none;
-  border-radius: 24px;
+  border-radius: 22px;
   background-color: var(--pink-btn);
   color: #FFFFFF;
   font-family: inherit;
-  font-size: 0.96rem;
+  font-size: 0.94rem;
   font-weight: 900;
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(240, 98, 125, 0.28);
@@ -650,10 +686,14 @@ body {
   align-items: center;
   justify-content: center;
   z-index: 100;
+  padding: 16px;
 }
 
 .color-picker-popover {
   width: 270px;
+  max-width: 90vw;
+  max-height: 90dvh;
+  overflow-y: auto;
   background: #2C2523;
   border-radius: 16px;
   padding: 12px;
@@ -784,15 +824,22 @@ body {
 /* ================= 8. VILLAGE SCREEN ================= */
 .village-layout {
   background-color: var(--bg-cream);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .village-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 14px;
+  padding: max(8px, env(safe-area-inset-top)) 14px 8px;
   background: var(--bg-cream);
   border-bottom: 1.5px solid var(--border-soft);
+  flex-shrink: 0;
 }
 
 .village-title {
@@ -815,6 +862,7 @@ body {
 .village-meadow {
   position: relative;
   flex: 1;
+  min-height: 0;
   overflow: hidden;
   background: linear-gradient(180deg, #B5E3FF 0%, #E3F5FF 42%, #CBE9A4 42%, #A6D674 100%);
 }
@@ -862,12 +910,13 @@ body {
 }
 
 .village-controls {
-  padding: 12px 14px 16px;
+  padding: 10px 14px max(12px, env(safe-area-inset-bottom));
   background: var(--bg-cream);
   border-top: 1.5px solid var(--border-soft);
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
+  flex-shrink: 0;
 }
 
 .v-action-btn {
@@ -884,4 +933,117 @@ body {
 
 .v-action-btn:active {
   transform: scale(0.96);
+}
+
+/* ================= 9. VERTICAL MOBILE RESPONSIVENESS ================= */
+
+/* Devices with viewport height <= 720px (e.g. mobile Safari with bars, iPhone SE) */
+@media (max-height: 720px) {
+  .stage-container {
+    height: clamp(125px, 22vh, 165px);
+  }
+  .top-nav-bar {
+    padding: max(4px, env(safe-area-inset-top)) 10px 4px;
+  }
+  .name-input-box {
+    padding: 4px 10px;
+    border-radius: 10px;
+  }
+  .reset-icon-btn {
+    width: 34px;
+    height: 32px;
+    border-radius: 10px;
+  }
+  .categories-nav {
+    padding: 4px 4px;
+  }
+  .cat-icon-circle {
+    width: 30px;
+    height: 30px;
+  }
+  .cat-icon-circle svg {
+    width: 19px;
+    height: 19px;
+  }
+  .cat-title {
+    font-size: 0.68rem;
+  }
+  .subtabs-bar {
+    min-height: 36px;
+    padding: 4px 8px;
+  }
+  .subtab-pill {
+    padding: 3px 10px;
+    font-size: 0.74rem;
+  }
+  .options-workspace {
+    padding: 8px 10px 10px;
+  }
+  .cards-grid {
+    gap: 6px;
+  }
+  .option-card {
+    border-radius: 10px;
+    padding: 3px 3px 5px;
+  }
+  .card-label {
+    font-size: 0.7rem;
+  }
+  .palette-section {
+    margin-bottom: 12px;
+  }
+  .palette-title {
+    font-size: 0.78rem;
+    margin-bottom: 6px;
+  }
+  .palette-grid {
+    gap: 5px;
+  }
+  .bottom-action-bar {
+    padding: 6px 14px max(8px, env(safe-area-inset-bottom));
+  }
+  .btn-main-finish {
+    height: 40px;
+    font-size: 0.88rem;
+    border-radius: 20px;
+  }
+}
+
+/* Very compact viewports <= 580px (e.g. phones in landscape or split screen) */
+@media (max-height: 580px) {
+  .stage-container {
+    height: clamp(95px, 18vh, 125px);
+  }
+  .cat-icon-circle {
+    width: 25px;
+    height: 25px;
+  }
+  .cat-icon-circle svg {
+    width: 15px;
+    height: 15px;
+  }
+  .cat-title {
+    display: none;
+  }
+  .categories-nav {
+    padding: 2px 2px;
+  }
+  .subtabs-bar {
+    min-height: 30px;
+    padding: 2px 6px;
+  }
+  .subtab-pill {
+    padding: 2px 8px;
+    font-size: 0.68rem;
+  }
+  .options-workspace {
+    padding: 6px 8px 8px;
+  }
+  .bottom-action-bar {
+    padding: 4px 10px max(6px, env(safe-area-inset-bottom));
+  }
+  .btn-main-finish {
+    height: 34px;
+    font-size: 0.82rem;
+  }
 }
